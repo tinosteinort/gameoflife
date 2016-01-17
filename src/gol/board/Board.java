@@ -48,6 +48,11 @@ public abstract class Board {
         return livingCells.contains(cell);
     }
 
+    public Board add(final Cell cell) {
+        livingCells.add(cell);
+        return this;
+    }
+
     protected abstract List<Cell> getLivingNeighbours(Cell cell);
 
     protected abstract List<Cell> getDeadNeighbours(Cell cell);

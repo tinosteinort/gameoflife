@@ -30,8 +30,8 @@ public class FixedBoard extends BoundedBoard {
 
         for (int x = cell.getX() - 1; x < cell.getX() + 1; x++) {
             for (int y = cell.getY() - 1; y < cell.getY() + 1; y++) {
-                if (pointIsInBound(x, y)
-                        && x != cell.getX() && y != cell.getY()) {
+                if (!pointIsInBound(x, y)
+                        || (x == cell.getX() && y == cell.getY())) {
                     continue;
                 }
 
@@ -48,7 +48,7 @@ public class FixedBoard extends BoundedBoard {
         return neighbours;
     }
 
-    private boolean pointIsInBound(final int x, final int y) {
+    boolean pointIsInBound(final int x, final int y) {
         return x >= 0 && x < getWidth()
                 && y >= 0 && y < getHeight();
     }
