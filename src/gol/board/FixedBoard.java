@@ -7,9 +7,9 @@ import java.util.List;
 /**
  * Created by Tino on 17.01.2016.
  */
-public class TorusBoard extends BoundedBoard {
+public class FixedBoard extends BoundedBoard {
 
-    public TorusBoard(final int width, final int height) {
+    public FixedBoard(final int width, final int height) {
         super(width, height);
     }
 
