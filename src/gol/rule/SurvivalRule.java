@@ -5,7 +5,7 @@ import gol.Status;
 /**
  * Created by Tino on 17.01.2016.
  */
-public class SurvivalRule implements Rule {
+class SurvivalRule implements Rule {
 
     @Override
     public boolean matches(final Status currentStatus, final int neighbourCount) {
