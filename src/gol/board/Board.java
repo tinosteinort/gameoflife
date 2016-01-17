@@ -44,6 +44,10 @@ public abstract class Board {
         return deadNeighbours;
     }
 
+    protected boolean contains(final Cell cell) {
+        return livingCells.contains(cell);
+    }
+
     protected abstract List<Cell> getLivingNeighbours(Cell cell);
 
     protected abstract List<Cell> getDeadNeighbours(Cell cell);
