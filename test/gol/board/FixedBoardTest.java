@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by Tino on 17.01.2016.
  */
-public class FixedBoardTest {
+public class FixedBoardTest extends CellTest {
 
     @Test
     public void testWithinBounds() {
@@ -46,20 +46,7 @@ public class FixedBoardTest {
         board.add(cell).add(cellWest).add(cellNorthWest).add(cellNorth);
 
         List<Cell> neighbours = board.getLivingNeighbours(cell);
-        for (Cell neighbour : neighbours) {
-            if (cellWest.equals(neighbour)) {
-                Assert.assertTrue(true);
-            }
-            else if (cellNorthWest.equals(neighbour)) {
-                Assert.assertTrue(true);
-            }
-            else if (cellNorth.equals(neighbour)) {
-                Assert.assertTrue(true);
-            }
-            else {
-                Assert.assertTrue("Not an expected Cell: " + neighbour, false);
-            }
-        }
+        assertContainsAll(neighbours, cellWest, cellNorthWest, cellNorth);
     }
 
     @Test
@@ -81,19 +68,6 @@ public class FixedBoardTest {
 
 
         List<Cell> neighbours = board.getLivingNeighbours(cell);
-        for (Cell neighbour : neighbours) {
-            if (cellEast.equals(neighbour)) {
-                Assert.assertTrue(true);
-            }
-            else if (cellSouthEast.equals(neighbour)) {
-                Assert.assertTrue(true);
-            }
-            else if (cellSouth.equals(neighbour)) {
-                Assert.assertTrue(true);
-            }
-            else {
-                Assert.assertTrue("Not an expected Cell: " + neighbour, false);
-            }
-        }
+        assertContainsAll(neighbours, cellEast, cellSouthEast, cellSouth);
     }
 }
