@@ -16,16 +16,10 @@ public abstract class CellTest {
         Objects.requireNonNull(collectionToTest, "Collection required");
         Objects.requireNonNull(expectedCells, "Cells required for assertion");
 
-        for (Cell cellToTest : collectionToTest) {
+        for (Cell expectedCell : expectedCells) {
 
-            boolean cellFound = false;
-            for (Cell expectedCell : expectedCells) {
-                cellFound = cellFound || expectedCell.equals(cellToTest);
-            }
-
-            if (!cellFound) {
-                Assert.fail("Not an expected Cell: " + cellToTest +
-                        ", expected one of: " + Arrays.toString(expectedCells));
+            if (!collectionToTest.contains(expectedCell)) {
+                Assert.fail("Cell " + expectedCell + "not found in " + Arrays.toString(expectedCells));
             }
         }
     }
