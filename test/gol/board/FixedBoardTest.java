@@ -46,7 +46,7 @@ public class FixedBoardTest extends CellTest {
         board.add(cell).add(cellWest).add(cellNorthWest).add(cellNorth);
 
         List<Cell> neighbours = board.getLivingNeighbours(cell);
-        assertContainsAll(neighbours, cellWest, cellNorthWest, cellNorth);
+        assertSameCells(neighbours, cellWest, cellNorthWest, cellNorth);
     }
 
     @Test
@@ -70,6 +70,6 @@ public class FixedBoardTest extends CellTest {
 
 
         List<Cell> neighbours = board.getDeadNeighbours(cell);
-        assertContainsAll(neighbours, cellNorthEast, cellEast, cellSouthEast, cellSouth, cellSouthWest);
+        assertSameCells(neighbours, cellNorthEast, cellEast, cellSouthEast, cellSouth, cellSouthWest);
     }
 }

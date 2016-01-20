@@ -12,14 +12,16 @@ import java.util.Objects;
  */
 public abstract class CellTest {
 
-    public void assertContainsAll(final Collection<Cell> collectionToTest, final Cell... expectedCells) {
+    public void assertSameCells(final Collection<Cell> collectionToTest, final Cell... expectedCells) {
         Objects.requireNonNull(collectionToTest, "Collection required");
         Objects.requireNonNull(expectedCells, "Cells required for assertion");
+
+        Assert.assertEquals("Invalid Number of Cells", expectedCells.length, collectionToTest.size());
 
         for (Cell expectedCell : expectedCells) {
 
             if (!collectionToTest.contains(expectedCell)) {
-                Assert.fail("Cell " + expectedCell + "not found in " + Arrays.toString(expectedCells));
+                Assert.fail("Cell " + expectedCell + "not found in " + collectionToTest);
             }
         }
     }
