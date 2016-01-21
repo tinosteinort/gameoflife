@@ -37,7 +37,7 @@ public class FixedBoard extends BoundedBoard {
 
                 final Cell currentCell = new Cell(x, y);
 
-                final boolean cellIsAlive = contains(currentCell);
+                final boolean cellIsAlive = cellIsAlive(currentCell);
                 if (cellIsAlive && status == Status.ALIVE) {
                     neighbours.add(currentCell);
                 }

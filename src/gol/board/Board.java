@@ -44,7 +44,7 @@ public abstract class Board {
         return deadNeighbours;
     }
 
-    protected boolean contains(final Cell cell) {
+    protected boolean cellIsAlive(final Cell cell) {
         return livingCells.contains(cell);
     }
 

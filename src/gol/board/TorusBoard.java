@@ -36,7 +36,7 @@ public class TorusBoard extends BoundedBoard {
 
                 final Cell currentCell = new Cell(translateX(x), translateY(y));
 
-                final boolean cellIsAlive = contains(currentCell);
+                final boolean cellIsAlive = cellIsAlive(currentCell);
                 if (cellIsAlive && status == Status.ALIVE) {
                     neighbours.add(currentCell);
                 }
