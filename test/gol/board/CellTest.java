@@ -21,7 +21,7 @@ public abstract class CellTest {
         for (Cell expectedCell : expectedCells) {
 
             if (!collectionToTest.contains(expectedCell)) {
-                Assert.fail("Cell " + expectedCell + "not found in " + collectionToTest);
+                Assert.fail("Cell " + expectedCell + " not found in " + collectionToTest);
             }
         }
     }
