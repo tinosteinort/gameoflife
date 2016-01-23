@@ -16,10 +16,17 @@ public abstract class Board {
     private final List<Cell> livingCells = new ArrayList<>();
     private final List<Cell> newLivingCells = new ArrayList<>();
 
+    private final static long START_GENERATION = 1;
+    private long currentGeneration = START_GENERATION;
+
     public void nextRound() {
 
         calculateNextStatusOfCells(Status.ALIVE, livingCells);
         calculateNextStatusOfCells(Status.DEAD, determineDeadNeigbourCells());
+
+        updateLivingCells();
+
+        currentGeneration++;
     }
 
     private void calculateNextStatusOfCells(final Status currentStatus, final Collection<Cell> cells) {
@@ -44,6 +51,12 @@ public abstract class Board {
         return deadNeighbours;
     }
 
+    private void updateLivingCells() {
+        livingCells.clear();
+        livingCells.addAll(newLivingCells);
+        newLivingCells.clear();
+    }
+
     protected boolean cellIsAlive(final Cell cell) {
         return livingCells.contains(cell);
     }
@@ -53,11 +66,26 @@ public abstract class Board {
         return this;
     }
 
+    public Board addAll(final Collection<Cell> cells) {
+        livingCells.addAll(cells);
+        return this;
+    }
+
+    public Board clear() {
+        livingCells.clear();
+        currentGeneration = START_GENERATION;
+        return this;
+    }
+
     protected abstract List<Cell> getLivingNeighbours(Cell cell);
 
     protected abstract List<Cell> getDeadNeighbours(Cell cell);
 
     public List<Cell> getLivingCells() {
         return Collections.unmodifiableList(livingCells);
+    }
+
+    public long getCurrentGeneration() {
+        return currentGeneration;
     }
 }
