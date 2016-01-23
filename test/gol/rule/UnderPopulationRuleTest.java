@@ -10,22 +10,24 @@ import org.junit.Test;
 public class UnderPopulationRuleTest {
 
     @Test
-    public void testOverPopulationOfCell() {
+    public void testUnderPopulationOfLivingCell() {
         Rule rule = new UnderPopulationRule();
 
         Assert.assertTrue(rule.matches(Status.ALIVE, 0));
         Assert.assertTrue(rule.matches(Status.ALIVE, 1));
-    }
-    @Test
-    public void testNoMatch() {
-        Rule rule = new UnderPopulationRule();
-
         Assert.assertFalse(rule.matches(Status.ALIVE, 2));
         Assert.assertFalse(rule.matches(Status.ALIVE, 3));
-        Assert.assertFalse(rule.matches(Status.ALIVE, 4));
-        Assert.assertFalse(rule.matches(Status.ALIVE, 5));
+    }
+    
+    @Test
+    public void testUnderPopulationOfDeadCell() {
+        Rule rule = new UnderPopulationRule();
 
-        Assert.assertFalse(rule.matches(Status.DEAD, 0));
-        Assert.assertFalse(rule.matches(Status.DEAD, 1));
+        Assert.assertTrue(rule.matches(Status.DEAD, 0));
+        Assert.assertTrue(rule.matches(Status.DEAD, 1));
+        Assert.assertTrue(rule.matches(Status.DEAD, 2));
+        Assert.assertTrue(rule.matches(Status.DEAD, 3));
+        Assert.assertTrue(rule.matches(Status.DEAD, 4));
+        Assert.assertTrue(rule.matches(Status.DEAD, 5));
     }
 }
