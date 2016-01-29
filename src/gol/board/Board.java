@@ -57,12 +57,17 @@ public abstract class Board {
         newLivingCells.clear();
     }
 
-    protected boolean cellIsAlive(final Cell cell) {
+    public boolean cellIsAlive(final Cell cell) {
         return livingCells.contains(cell);
     }
 
     public Board add(final Cell cell) {
         livingCells.add(cell);
+        return this;
+    }
+
+    public Board remove(final Cell cell) {
+        livingCells.remove(cell);
         return this;
     }
 
