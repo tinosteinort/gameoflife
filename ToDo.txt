@@ -1,0 +1,3 @@
+[ ] use long instead of int for x/y of Cell
+[?] EndlessBoard: new [TorusBoard|FixedBoard](Long.MAX_VALUE, Long.MAX_VALUE)
+    BigInteger?

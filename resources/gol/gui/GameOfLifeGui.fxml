@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.canvas.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gol.gui.GameOfLifeGuiController">
+   <top>
+      <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <items>
+            <ComboBox fx:id="boardBox" onAction="#itemSelected" prefWidth="150.0" />
+            <Button fx:id="nextStepBtn" mnemonicParsing="false" onAction="#doNextStep" text="Next Step" />
+            <Button fx:id="clearBtn" mnemonicParsing="false" onAction="#doClear" text="Clear" />
+            <Separator orientation="VERTICAL" />
+          <Button fx:id="playBtn" mnemonicParsing="false" onAction="#doPlay" text="Play" />
+            <Button fx:id="pauseBtn" mnemonicParsing="false" onAction="#doPause" text="Pause" />
+            <Separator orientation="VERTICAL" />
+            <Label text="Generation:" />
+            <Label fx:id="generationLabel" text="0" />
+            <Slider fx:id="durationSlider" blockIncrement="1.0" max="1000.0" value="100.0" />
+            <Button fx:id="leftBtn" mnemonicParsing="false" onAction="#navigateLeft" text="Left" />
+            <Button fx:id="rightBtn" mnemonicParsing="false" onAction="#navigateRight" text="Right" />
+            <Button fx:id="upBtn" mnemonicParsing="false" onAction="#navigateUp" text="Up" />
+            <Button fx:id="downBtn" mnemonicParsing="false" onAction="#navigateDown" text="Down" />
+        </items>
+      </ToolBar>
+   </top>
+   <center>
+      <Canvas fx:id="canvas" height="350.0" width="550.0" BorderPane.alignment="CENTER" />
+   </center>
+</BorderPane>
