@@ -1,130 +1,186 @@
 package gol.board;
 
 import gol.Cell;
-import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+
+import java.util.Optional;
 
 /**
  * Created by Tino on 23.01.2016.
  */
 public class BoundedBoardPainter implements BoardPainter {
 
+    private static final int CELL_WIDTH_THRESHOLD = 2;
+
     private final BoundedBoard board;
 
-    private final IntegerProperty cellWidthProperty = new SimpleIntegerProperty(10);
-    private final DoubleProperty xOffsetProperty = new SimpleDoubleProperty(0);
-    private final DoubleProperty yOffsetProperty = new SimpleDoubleProperty(0);
+    private final IntegerProperty cellWidthProperty = new SimpleIntegerProperty(ViewPort.DEFAULT_CELL_WIDTH);
 
-    public BoundedBoardPainter(final BoundedBoard board) {
+    private Color backgroundColor = Color.GRAY;
+    private Color boardBackgroundColor = Color.WHITE;
+    private Color gridLineColor = Color.LIGHTGRAY;
+    private Color cellColor = Color.BLACK;
+
+    private final ViewPort viewPort;
+
+    public BoundedBoardPainter(final BoundedBoard board, final double canvasWidth, final double canvasHeight) {
         this.board = board;
+        this.viewPort = new ViewPort(canvasWidth, canvasHeight);
+        this.viewPort.cellWidthPropertyProperty().bind(cellWidthProperty);
     }
 
-    private double boardWidth() {
+    public double boardWidthInPixel() {
         return board.getWidth() * cellWidthProperty.get();
     }
-    private double boardHeight() {
+    public double boardHeightInPixel() {
         return board.getHeight() * cellWidthProperty.get();
     }
 
     @Override
     public void paint(final GraphicsContext gc) {
 
-        gc.setFill(Color.WHITE);
-        gc.fillRect(xOffsetProperty.get(), yOffsetProperty.get(), boardWidth(), boardHeight());
+        final double boardWidth = boardWidthInPixel();
+        final double boardHeight = boardHeightInPixel();
+        final double cellWidth = cellWidthProperty.doubleValue();
 
-        printGrid(gc, boardWidth(), boardHeight(), cellWidthProperty.doubleValue());
+        // Fill Background
+        gc.setFill(backgroundColor);
+        gc.fillRect(0, 0, boardWidth, boardHeight);
 
+        final double viewPortX = viewPort.viewPortXinPixel();
+        final double viewPortY = viewPort.viewPortYinPixel();
+        final double viewPortWidth = viewPort.getViewPortWidth();
+        final double viewPortHeight = viewPort.getViewPortHeight();
+
+        // Check if Board is in ViewPort
+        if (viewPortX + viewPortWidth < 0) {
+            return;
+        }
+        if (viewPortX > boardWidth) {
+            return;
+        }
+        if (viewPortY + viewPortHeight < 0) {
+            return;
+        }
+        if (viewPortY > boardHeight) {
+            return;
+        }
+
+        // Calculate Corners of the visible Part of the Board
+        final double leftX;
+        if (viewPortX < 0) {
+            leftX = -viewPortX;
+        }
+        else {
+            leftX = 0;
+        }
+
+        final double topY;
+        if (viewPortY < 0) {
+            topY = -viewPortY;
+        }
+        else {
+            topY = 0;
+        }
+
+        final double rightX;
+        if (boardWidth > (viewPortX + viewPortWidth)) {
+            rightX = viewPortWidth;
+        }
+        else {
+            rightX = boardWidth - viewPortX;
+        }
+
+        final double bottomY;
+        if (boardHeight > (viewPortY + viewPortHeight)) {
+            bottomY = viewPortHeight;
+        }
+        else {
+            bottomY = boardHeight - viewPortY;
+        }
+
+        // Paint Background of the Grid
+        gc.setFill(boardBackgroundColor);
+        gc.fillRect(leftX, topY, rightX - leftX, bottomY - topY);
+
+        circle(gc, leftX, topY);
+        circle(gc, rightX, topY);
+        circle(gc, leftX, bottomY);
+        circle(gc, rightX, bottomY);
+
+        // Paint Grid Lines
+        if (cellWidth > CELL_WIDTH_THRESHOLD) {
+            gc.setStroke(gridLineColor);
+            for (double x = leftX; x <= rightX; x += cellWidth) {
+                gc.strokeLine(x, topY, x, bottomY);
+            }
+            for (double y = topY; y <= bottomY; y += cellWidth) {
+                gc.strokeLine(leftX, y, rightX, y);
+            }
+        }
+
+        // Paint the Cells
+        gc.setStroke(cellColor);
+        gc.setFill(cellColor);
         for (Cell cell : board.getLivingCells()) {
 
-            int cellX = cell.getX();
-            int cellY = cell.getY();
+            if (viewPort.cellIsInViewPort(cell)) {
 
-            double xPos = xOffsetProperty.get() + (cellX * cellWidthProperty.get());
-            double yPos = yOffsetProperty.get() + (cellY * cellWidthProperty.get());
+                final int cellX = cell.getX();
+                final int cellY = cell.getY();
 
-            gc.setStroke(Color.BLACK);
-            gc.setFill(Color.BLACK);
-            gc.fillRect(xPos, yPos, cellWidthProperty.get(), cellWidthProperty.get());
+                final double xPos = -viewPortX + (cellX * cellWidthProperty.get());
+                final double yPos = -viewPortY + (cellY * cellWidthProperty.get());
+
+                gc.fillRect(xPos, yPos, cellWidthProperty.get(), cellWidthProperty.get());
+            }
         }
+    }
+
+    private void circle(final GraphicsContext gc, final double x, final double y) {
+        final double width = 10;
+        gc.setStroke(Color.RED);
+        gc.strokeOval(x - (width / 2), y - (width / 2), width, width);
     }
 
     @Override
-    public void navigateLeft() {
-        xOffsetProperty.set(xOffsetProperty.get() - 10);
+    public Point2D getPosOnBoard(final double mouseX, final double mouseY) {
+        return new Point2D(mouseX + viewPort.viewPortXinPixel(), mouseY + viewPort.viewPortYinPixel());
     }
 
     @Override
-    public void navigateRight() {
-        xOffsetProperty.set(xOffsetProperty.get() + 10);
+    public Optional<Cell> getCellAt(final Point2D pointOnBoard) {
+        if (pointOnBoard.getX() < 0 || pointOnBoard.getX() >= boardWidthInPixel() ||
+                pointOnBoard.getY() < 0 || pointOnBoard.getY() >= boardHeightInPixel()) {
+            return Optional.empty();
+        }
+
+        return Optional.of(new Cell((int) (pointOnBoard.getX() / cellWidthProperty.get()),
+                                    (int) (pointOnBoard.getY() / cellWidthProperty.get())));
     }
 
     @Override
-    public void navigateUp() {
-        yOffsetProperty.set(yOffsetProperty.get() - 10);
+    public void setViewPortX(final int x) {
+        viewPort.setViewPortX(x);
     }
 
     @Override
-    public void navigateDown() {
-        yOffsetProperty.set(yOffsetProperty.get() + 10);
-    }
-
-    private void printGrid(final GraphicsContext gc, double width, double height, double cellWith) {
-
-        gc.setStroke(Color.LIGHTGRAY);
-
-        for (double x = cellWith; x < width; x = x + cellWith) {
-
-            gc.strokeLine(xOffsetProperty.get() + x, yOffsetProperty.get(), xOffsetProperty.get() + x, yOffsetProperty.get() + height);
-        }
-
-        for (double y = cellWith; y < height; y = y + cellWith) {
-
-            gc.strokeLine(xOffsetProperty.get(), yOffsetProperty.get() + y, xOffsetProperty.get() + width, yOffsetProperty.get() + y);
-        }
+    public void setViewPortY(final int y) {
+        viewPort.setViewPortY(y);
     }
 
     @Override
-    public Point2D getPosOnBoard(double mouseX, double mouseY) {
-
-        double x;
-        if (xOffsetProperty.get() >= 0) {
-            double diff = mouseX - xOffsetProperty.get();
-            x = diff;
-        }
-        else {
-            x = Math.abs(xOffsetProperty.get()) + mouseX;
-        }
-
-        double y;
-        if (yOffsetProperty.get() >= 0) {
-            double diff = mouseY - yOffsetProperty.get();
-            y = diff;
-        }
-        else {
-            y = Math.abs(yOffsetProperty.get()) + mouseY;
-        }
-
-        if (x < 0 || x >= boardWidth() ||
-                y < 0 || y >= boardHeight()) {
-            return null;
-        }
-
-        return new Point2D(x, y);
+    public int getViewPortX() {
+        return viewPort.getViewPortX();
     }
 
     @Override
-    public Point2D getFieldAt(final Point2D pointOnBoard) {
-        if (pointOnBoard.getX() < 0 || pointOnBoard.getX() >= boardWidth() ||
-                pointOnBoard.getY() < 0 || pointOnBoard.getY() >= boardHeight()) {
-            return null;
-        }
-
-        return new Point2D(pointOnBoard.getX() / cellWidthProperty.get(), pointOnBoard.getY() / cellWidthProperty.get());
+    public int getViewPortY() {
+        return viewPort.getViewPortY();
     }
 
     public IntegerProperty cellWithProperty() {

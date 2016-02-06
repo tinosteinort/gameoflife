@@ -21,6 +21,7 @@ import javafx.scene.paint.Color;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by Tino on 21.01.2016.
@@ -53,7 +54,7 @@ public class GameOfLifeGuiController {
         boards.addAll("Fixed Board", "Torus Board", "Endless Board");
     }
 
-    public void initController(Scene scene) {
+    public void initController(final Scene scene) {
 
         timer = new StepTimer(100, () -> doNextStep());
 
@@ -64,34 +65,26 @@ public class GameOfLifeGuiController {
 
         selectBoard((String) boardBox.getSelectionModel().getSelectedItem());
 
-//        board = new FixedBoard(50, 20);
-//        board = new TorusBoard(50, 20);
-//        boardPainter = new BoundedBoardPainter((BoundedBoard) board);
-
         initFigures();
 
         canvas.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
 
-                Point2D boardPos = boardPainter.getPosOnBoard(event.getX(), event.getY());
-                System.out.println(boardPos);
+                final Point2D boardPos = boardPainter.getPosOnBoard(event.getX(), event.getY());
+                final Optional<Cell> clickedCell = boardPainter.getCellAt(boardPos);
 
-                if (boardPos != null) {
+                if (clickedCell.isPresent()) {
 
-                    Point2D fieldPos = boardPainter.getFieldAt(boardPos);
-                    if (fieldPos != null) {
-
-                        Cell cell = new Cell((int) fieldPos.getX(), (int) fieldPos.getY());
-                        if (board.cellIsAlive(cell)) {
-                            board.remove(cell);
-                        }
-                        else {
-                            board.add(cell);
-                        }
-
-                        paint();
+                    final Cell cell = clickedCell.get();
+                    if (board.cellIsAlive(cell)) {
+                        board.remove(cell);
                     }
+                    else {
+                        board.add(cell);
+                    }
+
+                    paint();
                 }
             }
         });
@@ -129,6 +122,8 @@ public class GameOfLifeGuiController {
         List<Cell> lwss = Arrays.asList(new Cell(20, 10), new Cell(21, 10), new Cell(22, 10), new Cell(23, 10), new Cell(19, 11), new Cell(23, 11), new Cell(23, 12),new Cell(19, 13), new Cell(22, 13));
         board.addAll(lwss);
 
+//        board.clear();
+
 //        board.add(new Cell(5, 5)).add(new Cell(6, 5)).add(new Cell(7, 5));
     }
 
@@ -141,8 +136,6 @@ public class GameOfLifeGuiController {
 
         gc.setFill(Color.GRAY);
         gc.fillRect(0, 0, width, height);
-
-        double cellWith = 10;
 
         boardPainter.paint(gc);
     }
@@ -166,14 +159,18 @@ public class GameOfLifeGuiController {
                     board.clear();
                 }
                 board = new FixedBoard(50, 20);
-                boardPainter = new BoundedBoardPainter((BoundedBoard) board);
+                boardPainter = new BoundedBoardPainter((BoundedBoard) board, canvas.getWidth(), canvas.getHeight());
+                boardPainter.setViewPortX(0);
+                boardPainter.setViewPortY(0);
                 break;
             case "Torus Board":
                 if (board != null) {
                     board.clear();
                 }
                 board = new TorusBoard(50, 20);
-                boardPainter = new BoundedBoardPainter((BoundedBoard) board);
+                boardPainter = new BoundedBoardPainter((BoundedBoard) board, canvas.getWidth(), canvas.getHeight());
+                boardPainter.setViewPortX(0);
+                boardPainter.setViewPortY(0);
                 break;
             case "Endless Board":
                 if (board != null) {
@@ -181,6 +178,8 @@ public class GameOfLifeGuiController {
                 }
                 board = new EndlessBoard();
                 boardPainter = new EndlessBoardPainter((EndlessBoard) board, canvas.getWidth(), canvas.getHeight());
+                boardPainter.setViewPortX(0);
+                boardPainter.setViewPortY(0);
                 break;
         }
 
@@ -202,33 +201,29 @@ public class GameOfLifeGuiController {
     }
 
     @FXML private void doPlay() {
-
         timer.start();
-
         calculateToolbarStatus();
     }
 
     @FXML private void doPause() {
-
         timer.stop();
-
         calculateToolbarStatus();
     }
 
     @FXML private void navigateLeft() {
-        boardPainter.navigateLeft();
+        boardPainter.setViewPortX(boardPainter.getViewPortX() - 1);
         paint();
     }
     @FXML private void navigateRight() {
-        boardPainter.navigateRight();
+        boardPainter.setViewPortX(boardPainter.getViewPortX() + 1);
         paint();
     }
     @FXML private void navigateUp() {
-        boardPainter.navigateUp();
+        boardPainter.setViewPortY(boardPainter.getViewPortY() - 1);
         paint();
     }
     @FXML private void navigateDown() {
-        boardPainter.navigateDown();
+        boardPainter.setViewPortY(boardPainter.getViewPortY() + 1);
         paint();
     }
 
