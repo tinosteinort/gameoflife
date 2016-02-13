@@ -2,19 +2,13 @@ package gol.gui;
 
 import gol.Cell;
 import gol.board.*;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.paint.Color;
@@ -28,11 +22,16 @@ import java.util.Optional;
  */
 public class GameOfLifeGuiController {
 
-    @FXML private ComboBox boardBox;
+    @FXML private Button openBtn;
+    @FXML private MenuButton newBtn;
+    @FXML private MenuItem newBoundedFieldItem;
+    @FXML private MenuItem newTorusFieldItem;
+    @FXML private MenuItem newEndlessFieldItem;
+    @FXML private Button saveBtn;
+
     @FXML private Canvas canvas;
 
     @FXML private Button nextStepBtn;
-    @FXML private Button clearBtn;
     @FXML private Button playBtn;
     @FXML private Button pauseBtn;
     @FXML private Label generationLabel;
@@ -44,14 +43,11 @@ public class GameOfLifeGuiController {
 
     private BoardPainter boardPainter;
 
-    private final ObservableList<String> boards = FXCollections.observableArrayList();
-
     private Board board;
     private StepTimer timer;
 
     public GameOfLifeGuiController() {
 
-        boards.addAll("Fixed Board", "Torus Board", "Endless Board");
     }
 
     public void initController(final Scene scene) {
@@ -60,13 +56,10 @@ public class GameOfLifeGuiController {
 
         durationSlider.valueProperty().bindBidirectional(timer.stepDurationProperty());
 
-        boardBox.setItems(boards);
-        boardBox.getSelectionModel().selectFirst();
-
-        selectBoard((String) boardBox.getSelectionModel().getSelectedItem());
-
-        initFigures();
-
+//        selectBoard((String) boardBox.getSelectionModel().getSelectedItem());
+        newBoundedBoard();
+//        initFigures();
+        calculateToolbarStatus();
         canvas.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -140,64 +133,65 @@ public class GameOfLifeGuiController {
         boardPainter.paint(gc);
     }
 
-    @FXML private void itemSelected(final ActionEvent event) {
-
-        final String selection = (String) boardBox.getSelectionModel().getSelectedItem();
-
-        selectBoard(selection);
+    @FXML private void newBoundedBoard() {
+        if (board != null) {
+            board.clear();
+        }
+        board = new FixedBoard(50, 20);
+        boardPainter = new BoundedBoardPainter((BoundedBoard) board, canvas.getWidth(), canvas.getHeight());
+        boardPainter.setViewPortX(0);
+        boardPainter.setViewPortY(0);
 
         initFigures();
+        updateBoardInfos();
 
         paint();
     }
 
-    private void selectBoard(final String boardId) {
-
-        switch (boardId) {
-            case "Fixed Board":
-                if (board != null) {
-                    board.clear();
-                }
-                board = new FixedBoard(50, 20);
-                boardPainter = new BoundedBoardPainter((BoundedBoard) board, canvas.getWidth(), canvas.getHeight());
-                boardPainter.setViewPortX(0);
-                boardPainter.setViewPortY(0);
-                break;
-            case "Torus Board":
-                if (board != null) {
-                    board.clear();
-                }
-                board = new TorusBoard(50, 20);
-                boardPainter = new BoundedBoardPainter((BoundedBoard) board, canvas.getWidth(), canvas.getHeight());
-                boardPainter.setViewPortX(0);
-                boardPainter.setViewPortY(0);
-                break;
-            case "Endless Board":
-                if (board != null) {
-                    board.clear();
-                }
-                board = new EndlessBoard();
-                boardPainter = new EndlessBoardPainter((EndlessBoard) board, canvas.getWidth(), canvas.getHeight());
-                boardPainter.setViewPortX(0);
-                boardPainter.setViewPortY(0);
-                break;
+    @FXML private void newTorusBoard() {
+        if (board != null) {
+            board.clear();
         }
+        board = new TorusBoard(50, 20);
+        boardPainter = new BoundedBoardPainter((BoundedBoard) board, canvas.getWidth(), canvas.getHeight());
+        boardPainter.setViewPortX(0);
+        boardPainter.setViewPortY(0);
+
+        initFigures();
+        updateBoardInfos();
 
         paint();
+    }
+
+    @FXML private void newEndlessBoard() {
+        if (board != null) {
+            board.clear();
+        }
+        board = new EndlessBoard();
+        boardPainter = new EndlessBoardPainter((EndlessBoard) board, canvas.getWidth(), canvas.getHeight());
+        boardPainter.setViewPortX(0);
+        boardPainter.setViewPortY(0);
+
+        initFigures();
+        updateBoardInfos();
+
+        paint();
+    }
+
+    @FXML private void doSave() {
+
     }
 
     @FXML private void doNextStep() {
 
         board.nextRound();
-        generationLabel.setText(String.valueOf(board.getCurrentGeneration()));
+        updateBoardInfos();
 
         paint();
     }
 
-    @FXML private void doClear() {
-        initFigures();
-
-        paint();
+    private void updateBoardInfos() {
+        generationLabel.setText(String.valueOf(board.getCurrentGeneration()));
     }
 
     @FXML private void doPlay() {
@@ -229,9 +223,10 @@ public class GameOfLifeGuiController {
 
     private void calculateToolbarStatus() {
 
-        boardBox.setDisable(timer.isRunning());
+        openBtn.setDisable(timer.isRunning());
+        newBtn.setDisable(timer.isRunning());
+        saveBtn.setDisable(timer.isRunning());
         nextStepBtn.setDisable(timer.isRunning());
-        clearBtn.setDisable(timer.isRunning());
         playBtn.setDisable(timer.isRunning());
         pauseBtn.setDisable(!timer.isRunning());
     }

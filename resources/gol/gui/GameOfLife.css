@@ -1,0 +1,23 @@
+#tb_btn_open {
+    -fx-graphic: url('/icons/folder.png');
+}
+
+#tb_btn_new {
+    -fx-graphic: url('/icons/page_white.png');
+}
+
+#tb_btn_save {
+    -fx-graphic: url('/icons/disk.png');
+}
+
+#tb_btn_nextstep {
+    -fx-graphic: url('/icons/control_play_blue.png');
+}
+
+#tb_btn_play {
+    -fx-graphic: url('/icons/control_fastforward_blue.png');
+}
+
+#tb_btn_pause {
+    -fx-graphic: url('/icons/control_pause_blue.png');
+}

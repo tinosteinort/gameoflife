@@ -6,16 +6,24 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gol.gui.GameOfLifeGuiController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@GameOfLife.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gol.gui.GameOfLifeGuiController">
    <top>
       <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <items>
-            <ComboBox fx:id="boardBox" onAction="#itemSelected" prefWidth="150.0" />
-            <Button fx:id="nextStepBtn" mnemonicParsing="false" onAction="#doNextStep" text="Next Step" />
-            <Button fx:id="clearBtn" mnemonicParsing="false" onAction="#doClear" text="Clear" />
+            <Button id="tb_btn_open" fx:id="openBtn" mnemonicParsing="false" />
+            <MenuButton id="tb_btn_new" fx:id="newBtn" mnemonicParsing="false">
+              <items>
+                <MenuItem fx:id="newBoundedFieldItem" mnemonicParsing="false" onAction="#newBoundedBoard" text="Bounded Field" />
+                <MenuItem fx:id="newTorusFieldItem" mnemonicParsing="false" onAction="#newTorusBoard" text="Torus Field" />
+                  <MenuItem fx:id="newEndlessFieldItem" mnemonicParsing="false" onAction="#newEndlessBoard" text="Endless Field" />
+              </items>
+            </MenuButton>
             <Separator orientation="VERTICAL" />
-          <Button fx:id="playBtn" mnemonicParsing="false" onAction="#doPlay" text="Play" />
-            <Button fx:id="pauseBtn" mnemonicParsing="false" onAction="#doPause" text="Pause" />
+            <Button id="tb_btn_save" fx:id="saveBtn" mnemonicParsing="false" onAction="#doSave" />
+            <Separator orientation="VERTICAL" />
+            <Button id="tb_btn_nextstep" fx:id="nextStepBtn" mnemonicParsing="false" onAction="#doNextStep" />
+          <Button id="tb_btn_play" fx:id="playBtn" mnemonicParsing="false" onAction="#doPlay" />
+            <Button id="tb_btn_pause" fx:id="pauseBtn" mnemonicParsing="false" onAction="#doPause" />
             <Separator orientation="VERTICAL" />
             <Label text="Generation:" />
             <Label fx:id="generationLabel" text="0" />
@@ -28,6 +36,10 @@
       </ToolBar>
    </top>
    <center>
-      <Canvas fx:id="canvas" height="350.0" width="550.0" BorderPane.alignment="CENTER" />
+      <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <center>
+            <Canvas fx:id="canvas" height="350.0" width="550.0" BorderPane.alignment="CENTER" />
+         </center>
+      </BorderPane>
    </center>
 </BorderPane>
