@@ -2,6 +2,9 @@ package gol.gui;
 
 import gol.Cell;
 import gol.board.*;
+import gol.persistence.ConversionService;
+import gol.persistence.PersistenceService;
+import gol.persistence.XmlGameOfLifeState;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;
@@ -13,6 +16,8 @@ import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -44,13 +49,17 @@ public class GameOfLifeGuiController {
     @FXML private Button upBtn;
     @FXML private Button downBtn;
 
+    private final ConversionService conversionService;
+    private final PersistenceService persistenceService;
+
     private BoardPainter boardPainter;
 
     private Board board;
     private StepTimer timer;
 
     public GameOfLifeGuiController() {
-
+        this.conversionService = new ConversionService();
+        this.persistenceService = new PersistenceService();
     }
 
     public void initController(final Scene scene) {
@@ -208,7 +217,32 @@ public class GameOfLifeGuiController {
     }
 
     @FXML private void doSave() {
+        final Path file = Paths.get("Temp.xml");
 
+        final XmlGameOfLifeState gameState = conversionService.convert(board);
+        persistenceService.save(file, gameState);
+    }
+
+    @FXML private void doOpen() {
+        final Path file = Paths.get("Temp.xml");
+
+        if (board != null) {
+            board.clear();
+        }
+
+        final XmlGameOfLifeState gameState = persistenceService.load(file);
+        board = conversionService.convert(gameState);
+
+        boardPainter = new BoardPainterFactory().build(board, 700, 300);
+        boardPainter.setViewPortX(0);
+        boardPainter.setViewPortY(0);
+        boardPainter.viewPortWidthProperty().bind(canvas.widthProperty());
+        boardPainter.viewPortHeightProperty().bind(canvas.heightProperty());
+
+        updateBoardInfos();
+        calculateToolbarStatus();
+
+        paint();
     }
 
     @FXML private void doNextStep() {
