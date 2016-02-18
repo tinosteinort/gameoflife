@@ -17,7 +17,7 @@ public class ConversionService {
         gameState.setBoardType(boardType);
 
         switch (boardType) {
-            case BOUNDED:
+            case FIXED:
             case TORUS:
                 gameState.setBoardWidth(((BoundedBoard) board).getWidth());
                 gameState.setBoardHeight(((BoundedBoard) board).getHeight());
@@ -32,8 +32,8 @@ public class ConversionService {
     }
 
     private XmlBoardType determineType(final Board board) {
-        if (board instanceof BoundedBoard) {
-            return XmlBoardType.BOUNDED;
+        if (board instanceof FixedBoard) {
+            return XmlBoardType.FIXED;
         }
         else if (board instanceof TorusBoard) {
             return XmlBoardType.TORUS;
@@ -55,13 +55,13 @@ public class ConversionService {
 
         final Board board;
         switch (gameState.getBoardType()) {
-            case BOUNDED:
-                board = new TorusBoard(gameState.getGeneration(),
+            case FIXED:
+                board = new FixedBoard(gameState.getGeneration(),
                                        gameState.getBoardWidth(),
                                        gameState.getBoardHeight());
                 break;
             case TORUS:
-                board = new FixedBoard(gameState.getGeneration(),
+                board = new TorusBoard(gameState.getGeneration(),
                                        gameState.getBoardWidth(),
                                        gameState.getBoardHeight());
                 break;

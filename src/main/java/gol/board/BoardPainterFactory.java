@@ -9,9 +9,6 @@ public class BoardPainterFactory {
         if (board instanceof BoundedBoard) {
             return new BoundedBoardPainter((BoundedBoard) board, width, height);
         }
-        else if (board instanceof TorusBoard) {
-            return new BoundedBoardPainter((BoundedBoard) board, width, height);
-        }
         else if (board instanceof EndlessBoard) {
             return new EndlessBoardPainter((EndlessBoard) board, width, height);
         }

@@ -5,7 +5,7 @@ package gol.persistence;
  */
 public enum XmlBoardType {
 
-    BOUNDED,
+    FIXED,
     TORUS,
     ENDLESS;
 }
