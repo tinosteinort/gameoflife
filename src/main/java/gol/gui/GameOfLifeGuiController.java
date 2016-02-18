@@ -76,6 +76,9 @@ public class GameOfLifeGuiController {
     private void initListener() {
 
         canvas.setOnMouseClicked((MouseEvent event) -> {
+            if (!painterIsAvailable()) {
+                return;
+            }
 
             final Point2D boardPos = boardPainter.getPosOnBoard(event.getX(), event.getY());
             final Optional<Cell> clickedCell = boardPainter.getCellAt(boardPos);
@@ -95,6 +98,9 @@ public class GameOfLifeGuiController {
         });
 
         canvas.setOnScroll((ScrollEvent event) -> {
+            if (!painterIsAvailable()) {
+                return;
+            }
 
             if (event.getDeltaY() < 0) {
                 final int newWidth = boardPainter.cellWidthProperty().get() - 1;
@@ -139,7 +145,7 @@ public class GameOfLifeGuiController {
         gc.setFill(Color.GRAY);
         gc.fillRect(0, 0, width, height);
 
-        if (boardPainter != null) {
+        if (painterIsAvailable()) {
             boardPainter.paint(gc);
         }
 
@@ -149,6 +155,10 @@ public class GameOfLifeGuiController {
 
         gc.strokeLine(0, 0, width, height);
         gc.strokeLine(0, height, width, 0);
+    }
+
+    private boolean painterIsAvailable() {
+        return boardPainter != null;
     }
 
     @FXML private void newBoundedBoard() {
