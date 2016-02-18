@@ -17,8 +17,6 @@ public class EndlessBoardPainter implements BoardPainter {
     private static final int CELL_WIDTH_THRESHOLD = 2;
 
     private final EndlessBoard board;
-    private final double canvasWidth;
-    private final double canvasHeight;
 
     private Color boardBackgroundColor = Color.WHITE;
     private Color gridLineColor = Color.LIGHTGRAY;
@@ -28,28 +26,29 @@ public class EndlessBoardPainter implements BoardPainter {
 
     public EndlessBoardPainter(final EndlessBoard board, final double canvasWidth, final double canvasHeight) {
         this.board = board;
-        this.canvasWidth = canvasWidth;
-        this.canvasHeight = canvasHeight;
         this.viewPort = new ViewPort(canvasWidth, canvasHeight);
     }
 
     @Override
     public void paint(final GraphicsContext gc) {
 
+        final double viewPortWidth = viewPort.viewPortWidthProperty().get();
+        final double viewPortHeight = viewPort.viewPortHeightProperty().get();
+
         // Paint Background of the Grid
         gc.setFill(boardBackgroundColor);
-        gc.fillRect(0, 0, canvasWidth, canvasHeight);
+        gc.fillRect(0, 0, viewPortWidth, viewPortHeight);
 
         final double cellWidth = viewPort.cellWidthPropertyProperty().doubleValue();
 
         // Paint Grid Lines
         if (cellWidth > CELL_WIDTH_THRESHOLD) {
             gc.setStroke(gridLineColor);
-            for (double x = cellWidth; x < canvasWidth; x = x + cellWidth) {
-                gc.strokeLine(x, 0, x, canvasHeight);
+            for (double x = cellWidth; x < viewPortWidth; x = x + cellWidth) {
+                gc.strokeLine(x, 0, x, viewPortHeight);
             }
-            for (double y = cellWidth; y < canvasHeight; y = y + cellWidth) {
-                gc.strokeLine(0, y, canvasWidth, y);
+            for (double y = cellWidth; y < viewPortHeight; y = y + cellWidth) {
+                gc.strokeLine(0, y, viewPortWidth, y);
             }
         }
 
