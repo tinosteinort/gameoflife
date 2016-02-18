@@ -15,6 +15,10 @@ public class FixedBoard extends BoundedBoard {
         super(width, height);
     }
 
+    public FixedBoard(final long initialGeneration, final int width, final int height) {
+        super(initialGeneration, width, height);
+    }
+
     @Override
     protected List<Cell> getLivingNeighbours(final Cell cell) {
         return getNeighbours(cell, Status.ALIVE);

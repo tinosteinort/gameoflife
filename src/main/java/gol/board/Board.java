@@ -17,7 +17,15 @@ public abstract class Board {
     private final List<Cell> newLivingCells = new ArrayList<>();
 
     private final static long START_GENERATION = 1;
-    private long currentGeneration = START_GENERATION;
+    private long currentGeneration;
+
+    public Board(final long initialGeneration) {
+        this.currentGeneration = (initialGeneration < START_GENERATION ? START_GENERATION : initialGeneration);
+    }
+
+    public Board() {
+        this.currentGeneration = START_GENERATION;
+    }
 
     public void nextRound() {
 

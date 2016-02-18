@@ -11,6 +11,14 @@ import java.util.List;
  */
 public class EndlessBoard extends Board {
 
+    public EndlessBoard() {
+
+    }
+
+    public EndlessBoard(final long initialGeneration) {
+        super(initialGeneration);
+    }
+
     @Override
     protected List<Cell> getLivingNeighbours(final Cell cell) {
         return getNeighbours(cell, Status.ALIVE);
