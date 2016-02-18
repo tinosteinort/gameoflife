@@ -56,7 +56,7 @@ public class GameOfLifeGuiController {
         canvas = new ResizableCanvas();
         canvasHolder.getChildren().add(canvas);
 
-        timer = new StepTimer(100, () -> doNextStep());
+        timer = new StepTimer(500, () -> doNextStep());
 
         initBindings();
         initListener();
