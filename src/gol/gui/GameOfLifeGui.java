@@ -37,9 +37,10 @@ public class GameOfLifeGui extends Application {
 
         controller.paint();
 
-
         primaryStage.setTitle("Game of Life");
         primaryStage.setScene(scene);
+        primaryStage.setMinWidth(scene.getWidth());
+        primaryStage.setMinHeight(scene.getHeight());
         primaryStage.show();
 
     }

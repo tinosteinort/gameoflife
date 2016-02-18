@@ -1,6 +1,7 @@
 package gol.board;
 
 import gol.Cell;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
@@ -14,8 +15,6 @@ public interface BoardPainter {
 
     void paint(GraphicsContext gc);
 
-    IntegerProperty cellWithProperty();
-
     Point2D getPosOnBoard(double mouseX, double mouseY);
     Optional<Cell> getCellAt(Point2D pointOnBoard);
 
@@ -23,4 +22,8 @@ public interface BoardPainter {
     void setViewPortY(int y);
     int getViewPortX();
     int getViewPortY();
+
+    DoubleProperty viewPortWidthProperty();
+    DoubleProperty viewPortHeightProperty();
+    IntegerProperty cellWidthProperty();
 }

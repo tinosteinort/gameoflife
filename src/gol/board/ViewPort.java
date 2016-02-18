@@ -3,6 +3,7 @@ package gol.board;
 import gol.Cell;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
 /**
@@ -14,15 +15,14 @@ public class ViewPort {
     private int viewPortX;
     private int viewPortY;
 
-    private double viewPortWidth;
-    private double viewPortHeight;
-
     private final IntegerProperty cellWidthProperty;
+    private final DoubleProperty viewPortWidthProperty;
+    private final DoubleProperty viewPortHeightProperty;
 
     public ViewPort(final double viewPortWidth, final double viewPortHeight) {
-        this.viewPortWidth = viewPortWidth;
-        this.viewPortHeight = viewPortHeight;
         this.cellWidthProperty = new SimpleIntegerProperty(DEFAULT_CELL_WIDTH);
+        this.viewPortWidthProperty = new SimpleDoubleProperty(viewPortWidth);
+        this.viewPortHeightProperty = new SimpleDoubleProperty(viewPortHeight);
     }
 
     public boolean cellIsInViewPort(final Cell cell) {
@@ -36,17 +36,15 @@ public class ViewPort {
     }
 
     private int horizontalCellCount() {
-        return (int) (viewPortWidth / cellWidthProperty.get());
+        return (int) (viewPortWidthProperty.get() / cellWidthProperty.get());
     }
-
     private int verticalCellCount() {
-        return (int) (viewPortHeight / cellWidthProperty.get());
+        return (int) (viewPortHeightProperty.get() / cellWidthProperty.get());
     }
 
     public double viewPortXinPixel() {
         return viewPortX * cellWidthProperty.get();
     }
-
     public double viewPortYinPixel() {
         return viewPortY * cellWidthProperty.get();
     }
@@ -65,21 +63,13 @@ public class ViewPort {
         this.viewPortY = viewPortY;
     }
 
-    public double getViewPortWidth() {
-        return viewPortWidth;
-    }
-    public void setViewPortWidth(int viewPortWidth) {
-        this.viewPortWidth = viewPortWidth;
-    }
-
-    public double getViewPortHeight() {
-        return viewPortHeight;
-    }
-    public void setViewPortHeight(int viewPortHeight) {
-        this.viewPortHeight = viewPortHeight;
-    }
-
     public IntegerProperty cellWidthPropertyProperty() {
         return cellWidthProperty;
+    }
+    public DoubleProperty viewPortWidthProperty() {
+        return viewPortWidthProperty;
+    }
+    public DoubleProperty viewPortHeightProperty() {
+        return viewPortHeightProperty;
     }
 }

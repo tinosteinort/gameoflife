@@ -2,7 +2,6 @@ package gol.gui;
 
 import gol.Cell;
 import gol.board.*;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;
@@ -11,6 +10,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
 import java.util.Arrays;
@@ -29,6 +29,7 @@ public class GameOfLifeGuiController {
     @FXML private MenuItem newEndlessFieldItem;
     @FXML private Button saveBtn;
 
+    @FXML Pane canvasHolder;
     @FXML private Canvas canvas;
 
     @FXML private Button nextStepBtn;
@@ -52,54 +53,62 @@ public class GameOfLifeGuiController {
 
     public void initController(final Scene scene) {
 
+        canvas = new ResizableCanvas();
+        canvasHolder.getChildren().add(canvas);
+
         timer = new StepTimer(100, () -> doNextStep());
 
+        initBindings();
+        initListener();
+
+        calculateToolbarStatus();
+    }
+
+    private void initBindings() {
         durationSlider.valueProperty().bindBidirectional(timer.stepDurationProperty());
 
-//        selectBoard((String) boardBox.getSelectionModel().getSelectedItem());
-        newBoundedBoard();
-//        initFigures();
-        calculateToolbarStatus();
-        canvas.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
+        canvas.widthProperty().bind(canvasHolder.widthProperty());
+        canvas.heightProperty().bind(canvasHolder.heightProperty());
+        canvas.widthProperty().addListener(event -> paint());
+        canvas.heightProperty().addListener(event -> paint());
+    }
 
-                final Point2D boardPos = boardPainter.getPosOnBoard(event.getX(), event.getY());
-                final Optional<Cell> clickedCell = boardPainter.getCellAt(boardPos);
+    private void initListener() {
 
-                if (clickedCell.isPresent()) {
+        canvas.setOnMouseClicked((MouseEvent event) -> {
 
-                    final Cell cell = clickedCell.get();
-                    if (board.cellIsAlive(cell)) {
-                        board.remove(cell);
-                    }
-                    else {
-                        board.add(cell);
-                    }
+            final Point2D boardPos = boardPainter.getPosOnBoard(event.getX(), event.getY());
+            final Optional<Cell> clickedCell = boardPainter.getCellAt(boardPos);
 
-                    paint();
-                }
-            }
-        });
+            if (clickedCell.isPresent()) {
 
-        canvas.setOnScroll(new EventHandler<ScrollEvent>() {
-            @Override
-            public void handle(ScrollEvent event) {
-                if (event.getDeltaY() < 0) {
-                    final int newWidth = boardPainter.cellWithProperty().get() - 1;
-                    if (newWidth > 0) {
-                        boardPainter.cellWithProperty().set(newWidth);
-                    }
+                final Cell cell = clickedCell.get();
+                if (board.cellIsAlive(cell)) {
+                    board.remove(cell);
                 }
                 else {
-                    final int newWidth = boardPainter.cellWithProperty().get() + 1;
-                    boardPainter.cellWithProperty().set(newWidth);
+                    board.add(cell);
                 }
 
                 paint();
             }
         });
 
+        canvas.setOnScroll((ScrollEvent event) -> {
+
+            if (event.getDeltaY() < 0) {
+                final int newWidth = boardPainter.cellWidthProperty().get() - 1;
+                if (newWidth > 0) {
+                    boardPainter.cellWidthProperty().set(newWidth);
+                }
+            }
+            else {
+                final int newWidth = boardPainter.cellWidthProperty().get() + 1;
+                boardPainter.cellWidthProperty().set(newWidth);
+            }
+
+            paint();
+        });
     }
 
     private void initFigures() {
@@ -124,13 +133,22 @@ public class GameOfLifeGuiController {
 
         final GraphicsContext gc = canvas.getGraphicsContext2D();
 
-        double width = canvas.getWidth();
-        double height = canvas.getHeight();
+        final double width = canvas.getWidth();
+        final double height = canvas.getHeight();
 
         gc.setFill(Color.GRAY);
         gc.fillRect(0, 0, width, height);
 
-        boardPainter.paint(gc);
+        if (boardPainter != null) {
+            boardPainter.paint(gc);
+        }
+
+        gc.setStroke(Color.RED);
+        gc.setLineWidth(1);
+        gc.strokeRect(0, 0, width, height);
+
+        gc.strokeLine(0, 0, width, height);
+        gc.strokeLine(0, height, width, 0);
     }
 
     @FXML private void newBoundedBoard() {
@@ -141,6 +159,8 @@ public class GameOfLifeGuiController {
         boardPainter = new BoundedBoardPainter((BoundedBoard) board, canvas.getWidth(), canvas.getHeight());
         boardPainter.setViewPortX(0);
         boardPainter.setViewPortY(0);
+        boardPainter.viewPortWidthProperty().bind(canvas.widthProperty());
+        boardPainter.viewPortHeightProperty().bind(canvas.heightProperty());
 
         initFigures();
         updateBoardInfos();
@@ -156,6 +176,8 @@ public class GameOfLifeGuiController {
         boardPainter = new BoundedBoardPainter((BoundedBoard) board, canvas.getWidth(), canvas.getHeight());
         boardPainter.setViewPortX(0);
         boardPainter.setViewPortY(0);
+        boardPainter.viewPortWidthProperty().bind(canvas.widthProperty());
+        boardPainter.viewPortHeightProperty().bind(canvas.heightProperty());
 
         initFigures();
         updateBoardInfos();
@@ -171,6 +193,8 @@ public class GameOfLifeGuiController {
         boardPainter = new EndlessBoardPainter((EndlessBoard) board, canvas.getWidth(), canvas.getHeight());
         boardPainter.setViewPortX(0);
         boardPainter.setViewPortY(0);
+        boardPainter.viewPortWidthProperty().bind(canvas.widthProperty());
+        boardPainter.viewPortHeightProperty().bind(canvas.heightProperty());
 
         initFigures();
         updateBoardInfos();
@@ -183,7 +207,6 @@ public class GameOfLifeGuiController {
     }
 
     @FXML private void doNextStep() {
-
         board.nextRound();
         updateBoardInfos();
 
@@ -222,7 +245,6 @@ public class GameOfLifeGuiController {
     }
 
     private void calculateToolbarStatus() {
-
         openBtn.setDisable(timer.isRunning());
         newBtn.setDisable(timer.isRunning());
         saveBtn.setDisable(timer.isRunning());

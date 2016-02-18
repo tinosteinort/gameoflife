@@ -1,8 +1,8 @@
 package gol.board;
 
 import gol.Cell;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
@@ -18,8 +18,6 @@ public class BoundedBoardPainter implements BoardPainter {
 
     private final BoundedBoard board;
 
-    private final IntegerProperty cellWidthProperty = new SimpleIntegerProperty(ViewPort.DEFAULT_CELL_WIDTH);
-
     private Color backgroundColor = Color.GRAY;
     private Color boardBackgroundColor = Color.WHITE;
     private Color gridLineColor = Color.LIGHTGRAY;
@@ -30,14 +28,13 @@ public class BoundedBoardPainter implements BoardPainter {
     public BoundedBoardPainter(final BoundedBoard board, final double canvasWidth, final double canvasHeight) {
         this.board = board;
         this.viewPort = new ViewPort(canvasWidth, canvasHeight);
-        this.viewPort.cellWidthPropertyProperty().bind(cellWidthProperty);
     }
 
     public double boardWidthInPixel() {
-        return board.getWidth() * cellWidthProperty.get();
+        return board.getWidth() * viewPort.cellWidthPropertyProperty().get();
     }
     public double boardHeightInPixel() {
-        return board.getHeight() * cellWidthProperty.get();
+        return board.getHeight() * viewPort.cellWidthPropertyProperty().get();
     }
 
     @Override
@@ -45,7 +42,7 @@ public class BoundedBoardPainter implements BoardPainter {
 
         final double boardWidth = boardWidthInPixel();
         final double boardHeight = boardHeightInPixel();
-        final double cellWidth = cellWidthProperty.doubleValue();
+        final double cellWidth = viewPort.cellWidthPropertyProperty().doubleValue();
 
         // Fill Background
         gc.setFill(backgroundColor);
@@ -53,8 +50,8 @@ public class BoundedBoardPainter implements BoardPainter {
 
         final double viewPortX = viewPort.viewPortXinPixel();
         final double viewPortY = viewPort.viewPortYinPixel();
-        final double viewPortWidth = viewPort.getViewPortWidth();
-        final double viewPortHeight = viewPort.getViewPortHeight();
+        final double viewPortWidth = viewPort.viewPortWidthProperty().get();
+        final double viewPortHeight = viewPort.viewPortHeightProperty().get();
 
         // Check if Board is in ViewPort
         if (viewPortX + viewPortWidth < 0) {
@@ -133,10 +130,10 @@ public class BoundedBoardPainter implements BoardPainter {
                 final int cellX = cell.getX();
                 final int cellY = cell.getY();
 
-                final double xPos = -viewPortX + (cellX * cellWidthProperty.get());
-                final double yPos = -viewPortY + (cellY * cellWidthProperty.get());
+                final double xPos = -viewPortX + (cellX * cellWidth);
+                final double yPos = -viewPortY + (cellY * cellWidth);
 
-                gc.fillRect(xPos, yPos, cellWidthProperty.get(), cellWidthProperty.get());
+                gc.fillRect(xPos, yPos, cellWidth, cellWidth);
             }
         }
     }
@@ -159,8 +156,8 @@ public class BoundedBoardPainter implements BoardPainter {
             return Optional.empty();
         }
 
-        return Optional.of(new Cell((int) (pointOnBoard.getX() / cellWidthProperty.get()),
-                                    (int) (pointOnBoard.getY() / cellWidthProperty.get())));
+        return Optional.of(new Cell((int) (pointOnBoard.getX() / viewPort.cellWidthPropertyProperty().get()),
+                                    (int) (pointOnBoard.getY() / viewPort.cellWidthPropertyProperty().get())));
     }
 
     @Override
@@ -183,7 +180,16 @@ public class BoundedBoardPainter implements BoardPainter {
         return viewPort.getViewPortY();
     }
 
-    public IntegerProperty cellWithProperty() {
-        return cellWidthProperty;
+    @Override
+    public DoubleProperty viewPortWidthProperty() {
+        return viewPort.viewPortWidthProperty();
+    }
+    @Override
+    public DoubleProperty viewPortHeightProperty() {
+        return viewPort.viewPortHeightProperty();
+    }
+    @Override
+    public IntegerProperty cellWidthProperty() {
+        return viewPort.cellWidthPropertyProperty();
     }
 }

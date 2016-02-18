@@ -34,9 +34,6 @@
    </top>
    <center>
       <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-         <center>
-            <Canvas fx:id="canvas" height="350.0" width="550.0" BorderPane.alignment="CENTER" />
-         </center>
          <top>
             <GridPane BorderPane.alignment="CENTER">
               <columnConstraints>
@@ -58,6 +55,9 @@
                </children>
             </GridPane>
          </top>
+         <center>
+            <Pane fx:id="canvasHolder" BorderPane.alignment="CENTER" />
+         </center>
       </BorderPane>
    </center>
 </BorderPane>

@@ -1,8 +1,8 @@
 package gol.board;
 
 import gol.Cell;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
@@ -20,8 +20,6 @@ public class EndlessBoardPainter implements BoardPainter {
     private final double canvasWidth;
     private final double canvasHeight;
 
-    private final IntegerProperty cellWidthProperty = new SimpleIntegerProperty(ViewPort.DEFAULT_CELL_WIDTH);
-
     private Color boardBackgroundColor = Color.WHITE;
     private Color gridLineColor = Color.LIGHTGRAY;
     private Color cellColor = Color.BLACK;
@@ -33,7 +31,6 @@ public class EndlessBoardPainter implements BoardPainter {
         this.canvasWidth = canvasWidth;
         this.canvasHeight = canvasHeight;
         this.viewPort = new ViewPort(canvasWidth, canvasHeight);
-        this.viewPort.cellWidthPropertyProperty().bind(cellWidthProperty);
     }
 
     @Override
@@ -43,7 +40,7 @@ public class EndlessBoardPainter implements BoardPainter {
         gc.setFill(boardBackgroundColor);
         gc.fillRect(0, 0, canvasWidth, canvasHeight);
 
-        final double cellWidth = cellWidthProperty.doubleValue();
+        final double cellWidth = viewPort.cellWidthPropertyProperty().doubleValue();
 
         // Paint Grid Lines
         if (cellWidth > CELL_WIDTH_THRESHOLD) {
@@ -75,11 +72,6 @@ public class EndlessBoardPainter implements BoardPainter {
     }
 
     @Override
-    public IntegerProperty cellWithProperty() {
-        return cellWidthProperty;
-    }
-
-    @Override
     public Point2D getPosOnBoard(final double mouseX, final double mouseY) {
         return new Point2D(mouseX + viewPort.viewPortXinPixel(), mouseY + viewPort.viewPortYinPixel());
     }
@@ -89,14 +81,14 @@ public class EndlessBoardPainter implements BoardPainter {
         // Works, but somehow creepy. There is a better way.
         final int x = (int) (pointOnBoard.getX() < 0 ? pointOnBoard.getX() - 9 : pointOnBoard.getX());
         final int y = (int) (pointOnBoard.getY() < 0 ? pointOnBoard.getY() - 9 : pointOnBoard.getY());
-        return Optional.of(new Cell(x / cellWidthProperty.get(), y / cellWidthProperty.get()));
+        return Optional.of(new Cell(x / viewPort.cellWidthPropertyProperty().get(),
+                                    y / viewPort.cellWidthPropertyProperty().get()));
     }
 
     @Override
     public void setViewPortX(final int x) {
         viewPort.setViewPortX(x);
     }
-
     @Override
     public void setViewPortY(final int y) {
         viewPort.setViewPortY(y);
@@ -106,9 +98,21 @@ public class EndlessBoardPainter implements BoardPainter {
     public int getViewPortX() {
         return viewPort.getViewPortX();
     }
-
     @Override
     public int getViewPortY() {
         return viewPort.getViewPortY();
+    }
+
+    @Override
+    public DoubleProperty viewPortWidthProperty() {
+        return viewPort.viewPortWidthProperty();
+    }
+    @Override
+    public DoubleProperty viewPortHeightProperty() {
+        return viewPort.viewPortHeightProperty();
+    }
+    @Override
+    public IntegerProperty cellWidthProperty() {
+        return viewPort.cellWidthPropertyProperty();
     }
 }
