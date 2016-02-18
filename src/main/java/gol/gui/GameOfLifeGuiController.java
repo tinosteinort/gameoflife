@@ -22,6 +22,8 @@ import java.util.Optional;
  */
 public class GameOfLifeGuiController {
 
+    private final static int NAVIGATION_STEP_SIZE = 5;
+
     @FXML private Button openBtn;
     @FXML private MenuButton newBtn;
     @FXML private MenuItem newBoundedFieldItem;
@@ -164,6 +166,7 @@ public class GameOfLifeGuiController {
 
         initFigures();
         updateBoardInfos();
+        calculateToolbarStatus();
 
         paint();
     }
@@ -181,6 +184,7 @@ public class GameOfLifeGuiController {
 
         initFigures();
         updateBoardInfos();
+        calculateToolbarStatus();
 
         paint();
     }
@@ -198,6 +202,7 @@ public class GameOfLifeGuiController {
 
         initFigures();
         updateBoardInfos();
+        calculateToolbarStatus();
 
         paint();
     }
@@ -228,28 +233,32 @@ public class GameOfLifeGuiController {
     }
 
     @FXML private void navigateLeft() {
-        boardPainter.setViewPortX(boardPainter.getViewPortX() - 1);
+        boardPainter.setViewPortX(boardPainter.getViewPortX() - NAVIGATION_STEP_SIZE);
         paint();
     }
     @FXML private void navigateRight() {
-        boardPainter.setViewPortX(boardPainter.getViewPortX() + 1);
+        boardPainter.setViewPortX(boardPainter.getViewPortX() + NAVIGATION_STEP_SIZE);
         paint();
     }
     @FXML private void navigateUp() {
-        boardPainter.setViewPortY(boardPainter.getViewPortY() - 1);
+        boardPainter.setViewPortY(boardPainter.getViewPortY() - NAVIGATION_STEP_SIZE);
         paint();
     }
     @FXML private void navigateDown() {
-        boardPainter.setViewPortY(boardPainter.getViewPortY() + 1);
+        boardPainter.setViewPortY(boardPainter.getViewPortY() + NAVIGATION_STEP_SIZE);
         paint();
     }
 
     private void calculateToolbarStatus() {
         openBtn.setDisable(timer.isRunning());
         newBtn.setDisable(timer.isRunning());
-        saveBtn.setDisable(timer.isRunning());
-        nextStepBtn.setDisable(timer.isRunning());
-        playBtn.setDisable(timer.isRunning());
-        pauseBtn.setDisable(!timer.isRunning());
+        saveBtn.setDisable(timer.isRunning() || !painterIsAvailable());
+        nextStepBtn.setDisable(timer.isRunning() || !painterIsAvailable());
+        playBtn.setDisable(timer.isRunning() || !painterIsAvailable());
+        pauseBtn.setDisable(!timer.isRunning() || !painterIsAvailable());
+        leftBtn.setDisable(!painterIsAvailable());
+        rightBtn.setDisable(!painterIsAvailable());
+        upBtn.setDisable(!painterIsAvailable());
+        downBtn.setDisable(!painterIsAvailable());
     }
 }
