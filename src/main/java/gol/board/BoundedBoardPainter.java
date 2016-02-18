@@ -104,11 +104,6 @@ public class BoundedBoardPainter implements BoardPainter {
         gc.setFill(boardBackgroundColor);
         gc.fillRect(leftX, topY, rightX - leftX, bottomY - topY);
 
-        circle(gc, leftX, topY);
-        circle(gc, rightX, topY);
-        circle(gc, leftX, bottomY);
-        circle(gc, rightX, bottomY);
-
         // Paint Grid Lines
         if (cellWidth > CELL_WIDTH_THRESHOLD) {
             gc.setStroke(gridLineColor);
@@ -136,12 +131,6 @@ public class BoundedBoardPainter implements BoardPainter {
                 gc.fillRect(xPos, yPos, cellWidth, cellWidth);
             }
         }
-    }
-
-    private void circle(final GraphicsContext gc, final double x, final double y) {
-        final double width = 10;
-        gc.setStroke(Color.RED);
-        gc.strokeOval(x - (width / 2), y - (width / 2), width, width);
     }
 
     @Override

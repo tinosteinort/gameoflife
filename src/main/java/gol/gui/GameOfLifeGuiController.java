@@ -139,22 +139,12 @@ public class GameOfLifeGuiController {
 
         final GraphicsContext gc = canvas.getGraphicsContext2D();
 
-        final double width = canvas.getWidth();
-        final double height = canvas.getHeight();
-
         gc.setFill(Color.GRAY);
-        gc.fillRect(0, 0, width, height);
+        gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
         if (painterIsAvailable()) {
             boardPainter.paint(gc);
         }
-
-        gc.setStroke(Color.RED);
-        gc.setLineWidth(1);
-        gc.strokeRect(0, 0, width, height);
-
-        gc.strokeLine(0, 0, width, height);
-        gc.strokeLine(0, height, width, 0);
     }
 
     private boolean painterIsAvailable() {
