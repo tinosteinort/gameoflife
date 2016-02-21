@@ -7,7 +7,6 @@ import gol.persistence.PersistenceService;
 import gol.persistence.XmlGameOfLifeState;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
-import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
@@ -17,7 +16,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -37,7 +35,7 @@ public class GameOfLifeGuiController {
     @FXML private Button saveBtn;
 
     @FXML Pane canvasHolder;
-    @FXML private Canvas canvas;
+    private Canvas canvas;
 
     @FXML private Button nextStepBtn;
     @FXML private Button playBtn;
@@ -54,6 +52,8 @@ public class GameOfLifeGuiController {
 
     private BoardPainter boardPainter;
 
+    private DialogSupport dialogSupport;
+
     private Board board;
     private StepTimer timer;
 
@@ -62,8 +62,9 @@ public class GameOfLifeGuiController {
         this.persistenceService = new PersistenceService();
     }
 
-    public void initController(final Scene scene) {
+    public void initController(final DialogSupport dialogSupport) {
 
+        this.dialogSupport = dialogSupport;
         canvas = new ResizableCanvas();
         canvasHolder.getChildren().add(canvas);
 
@@ -217,15 +218,29 @@ public class GameOfLifeGuiController {
     }
 
     @FXML private void doSave() {
-        final Path file = Paths.get("Temp.xml");
+        final Optional<Path> fileOption = dialogSupport.selectPathForSave();
+        if (!fileOption.isPresent()) {
+            return;
+        }
 
+        saveGameState(fileOption.get());
+    }
+
+    private void saveGameState(final Path file) {
         final XmlGameOfLifeState gameState = conversionService.convert(board);
         persistenceService.save(file, gameState);
     }
 
     @FXML private void doOpen() {
-        final Path file = Paths.get("Temp.xml");
+        final Optional<Path> fileOption = dialogSupport.selectPathForOpen();
+        if (!fileOption.isPresent()) {
+            return;
+        }
 
+        loadGameState(fileOption.get());
+    }
+
+    private void loadGameState(final Path file) {
         if (board != null) {
             board.clear();
         }
@@ -233,7 +248,7 @@ public class GameOfLifeGuiController {
         final XmlGameOfLifeState gameState = persistenceService.load(file);
         board = conversionService.convert(gameState);
 
-        boardPainter = new BoardPainterFactory().build(board, 700, 300);
+        boardPainter = new BoardPainterFactory().build(board, canvas.getWidth(), canvas.getHeight());
         boardPainter.setViewPortX(0);
         boardPainter.setViewPortY(0);
         boardPainter.viewPortWidthProperty().bind(canvas.widthProperty());

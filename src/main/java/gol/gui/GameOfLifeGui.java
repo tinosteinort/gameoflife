@@ -1,23 +1,15 @@
 package gol.gui;
 
 import javafx.application.Application;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 /**
  * Created by Tino on 21.01.2016.
  */
 public class GameOfLifeGui extends Application {
-
-    @FXML
-    private Canvas canvas;
 
     public static void main(String[] args) {
         launch(args);
@@ -30,10 +22,10 @@ public class GameOfLifeGui extends Application {
         loader.setLocation(getClass().getResource("GameOfLifeGui.fxml"));
         final Parent root = loader.load();
 
-        final Scene scene = new Scene(root, 700, 500);
-
         final GameOfLifeGuiController controller = loader.getController();
-        controller.initController(scene);
+        controller.initController(new DialogSupport(primaryStage));
+
+        final Scene scene = new Scene(root, 700, 500);
 
         controller.paint();
 
