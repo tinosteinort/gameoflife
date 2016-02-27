@@ -95,8 +95,8 @@ public class DialogSupport {
                 @Override
                 public BoardBounds call(final ButtonType param) {
                     if (param == okButtonType) {
-                        int width = wSpinner.getValue();
-                        int height = hSpinner.getValue();
+                        final int width = wSpinner.getValue();
+                        final int height = hSpinner.getValue();
                         return new BoardBounds(width, height);
                     }
                     return null;
@@ -108,5 +108,16 @@ public class DialogSupport {
 
     public Optional<BoardBounds> getBoundsFromUser() {
         return getBoundsDialog().showAndWait();
+    }
+
+    public boolean askUserForDiscardBoard() {
+        final Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Game of Life");
+        alert.setHeaderText("There are living Cells on the Board.");
+        alert.setContentText("Discard current Board?");
+
+        final Optional<ButtonType> result = alert.showAndWait();
+
+        return result.isPresent() && result.get() == ButtonType.OK;
     }
 }

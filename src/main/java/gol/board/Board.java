@@ -98,6 +98,10 @@ public abstract class Board {
         return Collections.unmodifiableList(livingCells);
     }
 
+    public int countCells() {
+        return livingCells.size();
+    }
+
     public long getCurrentGeneration() {
         return currentGeneration;
     }

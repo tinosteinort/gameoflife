@@ -172,58 +172,80 @@ public class GameOfLifeGuiController {
         return boardPainter != null;
     }
 
+    private boolean boardIsEmpty() {
+        if (board == null) {
+            return true;
+        }
+        return board.countCells() == 0;
+    }
+
+    private boolean userPreventClearingOfBoard() {
+        if (boardIsEmpty()) {
+            return false;
+        }
+        final boolean discardBoard = dialogSupport.askUserForDiscardBoard();
+        if (discardBoard) {
+            return false;
+        }
+        return true;
+    }
+
+    private void clearBoard() {
+        if (board != null) {
+            board.clear();
+        }
+    }
+
+    private void initBoard(final Board newBoard) {
+        boardPainter = createAndBindPainter(newBoard);
+
+        updateBoardInfos();
+        calculateToolbarStatus();
+
+        paint();
+    }
+
     @FXML private void newFixedBoard() {
+        if (userPreventClearingOfBoard()) {
+            return;
+        }
+
         final Optional<BoardBounds> bounds = dialogSupport.getBoundsFromUser();
         if (!bounds.isPresent()) {
             return;
         }
 
-        if (board != null) {
-            board.clear();
-        }
+        clearBoard();
 
         board = new FixedBoard(bounds.get().getWidth(), bounds.get().getHeight());
-        boardPainter = createAndBindPainter(board);
-
-        initFigures();
-        updateBoardInfos();
-        calculateToolbarStatus();
-
-        paint();
+        initBoard(board);
     }
 
     @FXML private void newTorusBoard() {
+        if (userPreventClearingOfBoard()) {
+            return;
+        }
+
         final Optional<BoardBounds> bounds = dialogSupport.getBoundsFromUser();
         if (!bounds.isPresent()) {
             return;
         }
 
-        if (board != null) {
-            board.clear();
-        }
+        clearBoard();
 
         board = new TorusBoard(bounds.get().getWidth(), bounds.get().getHeight());
-        boardPainter = createAndBindPainter(board);
-
-        initFigures();
-        updateBoardInfos();
-        calculateToolbarStatus();
-
-        paint();
+        initBoard(board);
     }
 
     @FXML private void newEndlessBoard() {
-        if (board != null) {
-            board.clear();
+        if (userPreventClearingOfBoard()) {
+            return;
         }
+
+        clearBoard();
+
         board = new EndlessBoard();
-        boardPainter = createAndBindPainter(board);
-
-        initFigures();
-        updateBoardInfos();
-        calculateToolbarStatus();
-
-        paint();
+        initBoard(board);
     }
 
     @FXML private void doSave() {
@@ -241,6 +263,10 @@ public class GameOfLifeGuiController {
     }
 
     @FXML private void doOpen() {
+        if (userPreventClearingOfBoard()) {
+            return;
+        }
+
         final Optional<Path> fileOption = dialogSupport.selectPathForOpen();
         if (!fileOption.isPresent()) {
             return;
@@ -256,12 +282,7 @@ public class GameOfLifeGuiController {
 
         final XmlGameOfLifeState gameState = persistenceService.load(file);
         board = conversionService.convert(gameState);
-        boardPainter = createAndBindPainter(board);
-
-        updateBoardInfos();
-        calculateToolbarStatus();
-
-        paint();
+        initBoard(board);
     }
 
     @FXML private void doNextStep() {
