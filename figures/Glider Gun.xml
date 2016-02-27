@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<GameOfLifeState>
+    <BoardType>FIXED</BoardType>
+    <BoardWidth>100</BoardWidth>
+    <BoardHeight>50</BoardHeight>
+    <Generation>1</Generation>
+    <Cells>
+        <Cell x="33" y="18"/>
+        <Cell x="57" y="16"/>
+        <Cell x="35" y="16"/>
+        <Cell x="33" y="19"/>
+        <Cell x="36" y="22"/>
+        <Cell x="47" y="14"/>
+        <Cell x="38" y="17"/>
+        <Cell x="38" y="21"/>
+        <Cell x="36" y="16"/>
+        <Cell x="47" y="20"/>
+        <Cell x="39" y="20"/>
+        <Cell x="44" y="18"/>
+        <Cell x="34" y="17"/>
+        <Cell x="45" y="15"/>
+        <Cell x="58" y="17"/>
+        <Cell x="37" y="19"/>
+        <Cell x="35" y="22"/>
+        <Cell x="23" y="19"/>
+        <Cell x="44" y="16"/>
+        <Cell x="43" y="18"/>
+        <Cell x="43" y="17"/>
+        <Cell x="47" y="19"/>
+        <Cell x="40" y="19"/>
+        <Cell x="45" y="19"/>
+        <Cell x="43" y="16"/>
+        <Cell x="47" y="15"/>
+        <Cell x="57" y="17"/>
+        <Cell x="58" y="16"/>
+        <Cell x="39" y="18"/>
+        <Cell x="24" y="18"/>
+        <Cell x="39" y="19"/>
+        <Cell x="23" y="18"/>
+        <Cell x="33" y="20"/>
+        <Cell x="44" y="17"/>
+        <Cell x="34" y="21"/>
+        <Cell x="24" y="19"/>
+    </Cells>
+</GameOfLifeState>

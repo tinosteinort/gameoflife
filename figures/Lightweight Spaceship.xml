@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<GameOfLifeState>
+    <BoardType>TORUS</BoardType>
+    <BoardWidth>25</BoardWidth>
+    <BoardHeight>25</BoardHeight>
+    <Generation>92</Generation>
+    <Cells>
+        <Cell x="4" y="10"/>
+        <Cell x="6" y="11"/>
+        <Cell x="5" y="12"/>
+        <Cell x="7" y="10"/>
+        <Cell x="5" y="10"/>
+        <Cell x="7" y="9"/>
+        <Cell x="4" y="11"/>
+        <Cell x="6" y="9"/>
+        <Cell x="8" y="10"/>
+        <Cell x="5" y="11"/>
+        <Cell x="7" y="11"/>
+        <Cell x="6" y="12"/>
+    </Cells>
+</GameOfLifeState>
