@@ -159,20 +159,31 @@ public class GameOfLifeGuiController {
         }
     }
 
-    private boolean painterIsAvailable() {
-        return boardPainter != null;
-    }
-
-    @FXML private void newBoundedBoard() {
-        if (board != null) {
-            board.clear();
-        }
-        board = new FixedBoard(50, 20);
-        boardPainter = new BoundedBoardPainter((BoundedBoard) board, canvas.getWidth(), canvas.getHeight());
+    private BoardPainter createAndBindPainter(final Board board) {
+        boardPainter = new BoardPainterFactory().build(board, canvas.getWidth(), canvas.getHeight());
         boardPainter.setViewPortX(0);
         boardPainter.setViewPortY(0);
         boardPainter.viewPortWidthProperty().bind(canvas.widthProperty());
         boardPainter.viewPortHeightProperty().bind(canvas.heightProperty());
+        return boardPainter;
+    }
+
+    private boolean painterIsAvailable() {
+        return boardPainter != null;
+    }
+
+    @FXML private void newFixedBoard() {
+        final Optional<BoardBounds> bounds = dialogSupport.getBoundsFromUser();
+        if (!bounds.isPresent()) {
+            return;
+        }
+
+        if (board != null) {
+            board.clear();
+        }
+
+        board = new FixedBoard(bounds.get().getWidth(), bounds.get().getHeight());
+        boardPainter = createAndBindPainter(board);
 
         initFigures();
         updateBoardInfos();
@@ -182,15 +193,17 @@ public class GameOfLifeGuiController {
     }
 
     @FXML private void newTorusBoard() {
+        final Optional<BoardBounds> bounds = dialogSupport.getBoundsFromUser();
+        if (!bounds.isPresent()) {
+            return;
+        }
+
         if (board != null) {
             board.clear();
         }
-        board = new TorusBoard(50, 20);
-        boardPainter = new BoundedBoardPainter((BoundedBoard) board, canvas.getWidth(), canvas.getHeight());
-        boardPainter.setViewPortX(0);
-        boardPainter.setViewPortY(0);
-        boardPainter.viewPortWidthProperty().bind(canvas.widthProperty());
-        boardPainter.viewPortHeightProperty().bind(canvas.heightProperty());
+
+        board = new TorusBoard(bounds.get().getWidth(), bounds.get().getHeight());
+        boardPainter = createAndBindPainter(board);
 
         initFigures();
         updateBoardInfos();
@@ -204,11 +217,7 @@ public class GameOfLifeGuiController {
             board.clear();
         }
         board = new EndlessBoard();
-        boardPainter = new EndlessBoardPainter((EndlessBoard) board, canvas.getWidth(), canvas.getHeight());
-        boardPainter.setViewPortX(0);
-        boardPainter.setViewPortY(0);
-        boardPainter.viewPortWidthProperty().bind(canvas.widthProperty());
-        boardPainter.viewPortHeightProperty().bind(canvas.heightProperty());
+        boardPainter = createAndBindPainter(board);
 
         initFigures();
         updateBoardInfos();
@@ -247,12 +256,7 @@ public class GameOfLifeGuiController {
 
         final XmlGameOfLifeState gameState = persistenceService.load(file);
         board = conversionService.convert(gameState);
-
-        boardPainter = new BoardPainterFactory().build(board, canvas.getWidth(), canvas.getHeight());
-        boardPainter.setViewPortX(0);
-        boardPainter.setViewPortY(0);
-        boardPainter.viewPortWidthProperty().bind(canvas.widthProperty());
-        boardPainter.viewPortHeightProperty().bind(canvas.heightProperty());
+        boardPainter = createAndBindPainter(board);
 
         updateBoardInfos();
         calculateToolbarStatus();

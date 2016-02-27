@@ -13,7 +13,7 @@
             <Button id="tb_btn_open" fx:id="openBtn" mnemonicParsing="false" onAction="#doOpen" />
             <MenuButton id="tb_btn_new" fx:id="newBtn" mnemonicParsing="false">
               <items>
-                <MenuItem fx:id="newBoundedFieldItem" mnemonicParsing="false" onAction="#newBoundedBoard" text="Bounded Field" />
+                <MenuItem fx:id="newBoundedFieldItem" mnemonicParsing="false" onAction="#newFixedBoard" text="Bounded Field" />
                 <MenuItem fx:id="newTorusFieldItem" mnemonicParsing="false" onAction="#newTorusBoard" text="Torus Field" />
                   <MenuItem fx:id="newEndlessFieldItem" mnemonicParsing="false" onAction="#newEndlessBoard" text="Endless Field" />
               </items>

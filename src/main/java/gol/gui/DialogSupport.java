@@ -1,7 +1,10 @@
 package gol.gui;
 
+import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
+import javafx.util.Callback;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -16,6 +19,8 @@ public class DialogSupport {
     private Path selectedFolder;
 
     final FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Game of Live XML", "*.xml");
+
+    private Dialog<BoardBounds> boundsDialog;
 
     private final Window window;
 
@@ -57,5 +62,51 @@ public class DialogSupport {
 
     private void saveParentFolder(final Path selectedPath) {
         selectedFolder = selectedPath.getParent();
+    }
+
+    private Dialog<BoardBounds> getBoundsDialog() {
+        if (boundsDialog == null) {
+            boundsDialog = new Dialog();
+            boundsDialog.setTitle("Game of Live");
+            boundsDialog.setHeaderText("Define the Width and Height of the Board.");
+
+            final Label wLabel = new Label("Width:");
+            final Spinner<Integer> wSpinner = new Spinner<>();
+            wSpinner.setEditable(true);
+            wSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(3, 1000, 100));
+
+            final Label hLabel = new Label("Height:");
+            final Spinner<Integer> hSpinner = new Spinner<>();
+            hSpinner.setEditable(true);
+            hSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(3, 1000, 50));
+
+            final GridPane grid = new GridPane();
+            grid.add(wLabel, 0, 0);
+            grid.add(wSpinner, 1, 0);
+            grid.add(hLabel, 0, 1);
+            grid.add(hSpinner, 1, 1);
+            boundsDialog.getDialogPane().setContent(grid);
+
+            final ButtonType okButtonType = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
+            final ButtonType cancelButtonType = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+            boundsDialog.getDialogPane().getButtonTypes().addAll(cancelButtonType, okButtonType);
+
+            boundsDialog.setResultConverter(new Callback<ButtonType, BoardBounds>() {
+                @Override
+                public BoardBounds call(final ButtonType param) {
+                    if (param == okButtonType) {
+                        int width = wSpinner.getValue();
+                        int height = hSpinner.getValue();
+                        return new BoardBounds(width, height);
+                    }
+                    return null;
+                }
+            });
+        }
+        return boundsDialog;
+    }
+
+    public Optional<BoardBounds> getBoundsFromUser() {
+        return getBoundsDialog().showAndWait();
     }
 }
