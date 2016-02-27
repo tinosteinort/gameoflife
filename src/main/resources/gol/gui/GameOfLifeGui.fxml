@@ -25,10 +25,10 @@
           <Button id="tb_btn_play" fx:id="playBtn" mnemonicParsing="false" onAction="#doPlay" />
             <Button id="tb_btn_pause" fx:id="pauseBtn" mnemonicParsing="false" onAction="#doPause" />
             <Separator orientation="VERTICAL" />
-            <Button fx:id="leftBtn" mnemonicParsing="false" onAction="#navigateLeft" text="Left" />
-            <Button fx:id="rightBtn" mnemonicParsing="false" onAction="#navigateRight" text="Right" />
-            <Button fx:id="upBtn" mnemonicParsing="false" onAction="#navigateUp" text="Up" />
-            <Button fx:id="downBtn" mnemonicParsing="false" onAction="#navigateDown" text="Down" />
+            <Button id="tb_btn_navigate_left" fx:id="leftBtn" mnemonicParsing="false" onAction="#navigateLeft" />
+            <Button id="tb_btn_navigate_right" fx:id="rightBtn" mnemonicParsing="false" onAction="#navigateRight" />
+            <Button id="tb_btn_navigate_up" fx:id="upBtn" mnemonicParsing="false" onAction="#navigateUp" />
+            <Button id="tb_btn_navigate_down" fx:id="downBtn" mnemonicParsing="false" onAction="#navigateDown" />
         </items>
       </ToolBar>
    </top>

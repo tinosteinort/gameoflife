@@ -21,3 +21,19 @@
 #tb_btn_pause {
     -fx-graphic: url('/icons/control_pause_blue.png');
 }
+
+#tb_btn_navigate_left {
+    -fx-graphic: url('/icons/arrow_left.png');
+}
+
+#tb_btn_navigate_right {
+    -fx-graphic: url('/icons/arrow_right.png');
+}
+
+#tb_btn_navigate_up {
+    -fx-graphic: url('/icons/arrow_up.png');
+}
+
+#tb_btn_navigate_down {
+    -fx-graphic: url('/icons/arrow_down.png');
+}
