@@ -16,8 +16,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
 import java.nio.file.Path;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -127,24 +125,6 @@ public class GameOfLifeGuiController {
 
             paint();
         });
-    }
-
-    private void initFigures() {
-
-        board.clear();
-
-        List<Cell> blinker = Arrays.asList(new Cell(5, 5), new Cell(6, 5), new Cell(7, 5));
-        board.addAll(blinker);
-
-        List<Cell> gleiter = Arrays.asList(new Cell(5, 10), new Cell(6, 10), new Cell(7, 10), new Cell(7, 9), new Cell(6, 8));
-        board.addAll(gleiter);
-
-        List<Cell> lwss = Arrays.asList(new Cell(20, 10), new Cell(21, 10), new Cell(22, 10), new Cell(23, 10), new Cell(19, 11), new Cell(23, 11), new Cell(23, 12),new Cell(19, 13), new Cell(22, 13));
-        board.addAll(lwss);
-
-//        board.clear();
-
-//        board.add(new Cell(5, 5)).add(new Cell(6, 5)).add(new Cell(7, 5));
     }
 
     public void paint() {

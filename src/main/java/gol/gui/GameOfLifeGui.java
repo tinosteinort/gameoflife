@@ -34,6 +34,5 @@ public class GameOfLifeGui extends Application {
         primaryStage.setMinWidth(scene.getWidth());
         primaryStage.setMinHeight(scene.getHeight());
         primaryStage.show();
-
     }
 }
