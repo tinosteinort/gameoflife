@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<GameOfLifeState>
+    <BoardType>ENDLESS</BoardType>
+    <BoardWidth>0</BoardWidth>
+    <BoardHeight>0</BoardHeight>
+    <Generation>1</Generation>
+    <Cells>
+        <Cell x="42" y="33"/>
+        <Cell x="32" y="33"/>
+        <Cell x="38" y="33"/>
+        <Cell x="52" y="33"/>
+        <Cell x="44" y="33"/>
+        <Cell x="62" y="33"/>
+        <Cell x="53" y="33"/>
+        <Cell x="60" y="33"/>
+        <Cell x="25" y="33"/>
+        <Cell x="43" y="33"/>
+        <Cell x="51" y="33"/>
+        <Cell x="57" y="33"/>
+        <Cell x="56" y="33"/>
+        <Cell x="63" y="33"/>
+        <Cell x="27" y="33"/>
+        <Cell x="55" y="33"/>
+        <Cell x="59" y="33"/>
+        <Cell x="31" y="33"/>
+        <Cell x="28" y="33"/>
+        <Cell x="61" y="33"/>
+        <Cell x="34" y="33"/>
+        <Cell x="26" y="33"/>
+        <Cell x="30" y="33"/>
+        <Cell x="29" y="33"/>
+        <Cell x="36" y="33"/>
+        <Cell x="54" y="33"/>
+        <Cell x="35" y="33"/>
+        <Cell x="37" y="33"/>
+    </Cells>
+</GameOfLifeState>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<GameOfLifeState>
+    <BoardType>FIXED</BoardType>
+    <BoardWidth>200</BoardWidth>
+    <BoardHeight>200</BoardHeight>
+    <Generation>1</Generation>
+    <Cells>
+        <Cell x="88" y="92"/>
+        <Cell x="87" y="92"/>
+        <Cell x="87" y="94"/>
+        <Cell x="86" y="93"/>
+        <Cell x="87" y="93"/>
+    </Cells>
+</GameOfLifeState>
