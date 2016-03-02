@@ -111,13 +111,14 @@ public class DialogSupport {
     }
 
     public boolean askUserForDiscardBoard() {
-        final Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        final Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
+                                        "Discard current Board?",
+                                        ButtonType.YES, ButtonType.NO);
         alert.setTitle("Game of Life");
         alert.setHeaderText("There are living Cells on the Board.");
-        alert.setContentText("Discard current Board?");
 
         final Optional<ButtonType> result = alert.showAndWait();
 
-        return result.isPresent() && result.get() == ButtonType.OK;
+        return result.isPresent() && result.get() == ButtonType.YES;
     }
 }
