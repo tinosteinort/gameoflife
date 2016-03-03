@@ -3,8 +3,14 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>tse.gameoflife</groupId>
 	<artifactId>gameoflife</artifactId>
+	<packaging>pom</packaging>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>GameOfLife</name>
+
+	<modules>
+		<module>gameoflife-core</module>
+		<module>gameoflife-javafx</module>
+	</modules>
 
 	<developers>
 		<developer>
@@ -18,15 +24,18 @@
 		<version.junit>4.11</version.junit>
 	</properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-        </dependency>
-    </dependencies>
-
 	<dependencyManagement>
 		<dependencies>
+			<dependency>
+				<groupId>tse.gameoflife</groupId>
+				<artifactId>gameoflife-core</artifactId>
+				<version>0.0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>tse.gameoflife</groupId>
+				<artifactId>gameoflife-javafx</artifactId>
+				<version>0.0.1-SNAPSHOT</version>
+			</dependency>
 			<dependency>
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
