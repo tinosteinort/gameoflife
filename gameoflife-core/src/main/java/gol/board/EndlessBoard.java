@@ -1,7 +1,6 @@
 package gol.board;
 
 import gol.Cell;
-import gol.Status;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,16 +19,7 @@ public class EndlessBoard extends Board {
     }
 
     @Override
-    protected List<Cell> getLivingNeighbours(final Cell cell) {
-        return getNeighbours(cell, Status.ALIVE);
-    }
-
-    @Override
-    protected List<Cell> getDeadNeighbours(final Cell cell) {
-        return getNeighbours(cell, Status.DEAD);
-    }
-
-    private List<Cell> getNeighbours(final Cell cell, final Status status) {
+    protected List<Cell> getNeighbours(final Cell cell) {
         final List<Cell> neighbours = new ArrayList<>(NEIGHBOUR_COUNT);
 
         for (int x = cell.getX() - 1; x <= cell.getX() + 1; x++) {
@@ -38,15 +28,7 @@ public class EndlessBoard extends Board {
                     continue;
                 }
 
-                final Cell currentCell = new Cell(x, y);
-
-                final boolean cellIsAlive = cellIsAlive(currentCell);
-                if (cellIsAlive && status == Status.ALIVE) {
-                    neighbours.add(currentCell);
-                }
-                else if (!cellIsAlive && status == Status.DEAD) {
-                    neighbours.add(currentCell);
-                }
+                neighbours.add(new Cell(x, y));
             }
         }
 

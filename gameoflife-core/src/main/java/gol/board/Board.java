@@ -32,7 +32,7 @@ public abstract class Board {
     public void nextRound() {
 
         calculateNextStatusOfCells(Status.ALIVE, livingCells);
-        calculateNextStatusOfCells(Status.DEAD, determineDeadNeigbourCells());
+        calculateNextStatusOfCells(Status.DEAD, determineDeadNeighbourCells());
 
         updateLivingCells();
 
@@ -42,7 +42,7 @@ public abstract class Board {
     private void calculateNextStatusOfCells(final Status currentStatus, final Collection<Cell> cells) {
         for (Cell cell : cells) {
 
-            final List<Cell> neighbours = getLivingNeighbours(cell);
+            final List<Cell> neighbours = determineLivingNeighbourCells(cell);
             final Status newStatus = calculator.calculateStatus(currentStatus, neighbours.size());
 
             switch (newStatus) {
@@ -53,10 +53,25 @@ public abstract class Board {
         }
     }
 
-    private Set<Cell> determineDeadNeigbourCells() {
-        final Set<Cell> deadNeighbours = new HashSet<>();
+    private List<Cell> determineLivingNeighbourCells(final Cell cell) {
+        final List<Cell> livingNeighbours = new ArrayList<>(NEIGHBOUR_COUNT);
+        for (Cell neighbour : getNeighbours(cell)) {
+            if (cellIsAlive(neighbour)) {
+                livingNeighbours.add(neighbour);
+            }
+        }
+        return livingNeighbours;
+    }
+
+    private Set<Cell> determineDeadNeighbourCells() {
+        final Set<Cell> deadNeighbours = new HashSet<>(livingCells.size());
         for (Cell cell : livingCells) {
-            deadNeighbours.addAll(getDeadNeighbours(cell));
+            final List<Cell> neighbours = getNeighbours(cell);
+            for (Cell neighbour : neighbours) {
+                if (!cellIsAlive(neighbour)) {
+                    deadNeighbours.add(neighbour);
+                }
+            }
         }
         return deadNeighbours;
     }
@@ -92,9 +107,7 @@ public abstract class Board {
         return this;
     }
 
-    protected abstract List<Cell> getLivingNeighbours(Cell cell);
-
-    protected abstract List<Cell> getDeadNeighbours(Cell cell);
+    protected abstract List<Cell> getNeighbours(Cell cell);
 
     public List<Cell> getLivingCells() {
         return Collections.unmodifiableList(livingCells);

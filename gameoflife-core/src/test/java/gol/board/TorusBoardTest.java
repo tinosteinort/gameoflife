@@ -54,7 +54,7 @@ public class TorusBoardTest extends CellTest {
     }
 
     @Test
-    public void testGetLivingNeighbours_top_left() {
+    public void testGetNeighbours_top_left() {
 
         TorusBoard board = new TorusBoard(20, 10);
 
@@ -62,24 +62,6 @@ public class TorusBoardTest extends CellTest {
         Cell cellWest = new Cell(19, 0);
         Cell cellNorthWest = new Cell(19, 9);
         Cell cellNorth = new Cell(0, 9);
-
-        board.add(cell).add(cellWest).add(cellNorthWest).add(cellNorth);
-
-        List<Cell> neighbours = board.getLivingNeighbours(cell);
-        assertSameCells(neighbours, cellWest, cellNorthWest, cellNorth);
-    }
-
-    @Test
-    public void testGetDeadNeighbours_top_left() {
-
-        TorusBoard board = new TorusBoard(20, 10);
-
-        Cell cell = new Cell(0, 0);
-        Cell cellWest = new Cell(19, 0);
-        Cell cellNorthWest = new Cell(19, 9);
-        Cell cellNorth = new Cell(0, 9);
-
-        board.add(cell).add(cellWest).add(cellNorthWest).add(cellNorth);
 
         // Do not add dead Cells to Board
         Cell cellNorthEast = new Cell(1, 9);
@@ -88,12 +70,15 @@ public class TorusBoardTest extends CellTest {
         Cell cellSouth = new Cell(0, 1);
         Cell cellSouthWest = new Cell(19, 1);
 
-        List<Cell> neighbours = board.getDeadNeighbours(cell);
-        assertSameCells(neighbours, cellNorthEast, cellEast, cellSouthEast, cellSouth, cellSouthWest);
+        board.add(cell).add(cellWest).add(cellNorthWest).add(cellNorth);
+
+        List<Cell> neighbours = board.getNeighbours(cell);
+        assertSameCells(neighbours,
+                cellWest, cellNorthWest, cellNorth, cellNorthEast, cellEast, cellSouthEast, cellSouth, cellSouthWest);
     }
 
     @Test
-    public void testGetLivingNeighbours_bottom_left() {
+    public void testGetNeighbours_bottom_left() {
 
         TorusBoard board = new TorusBoard(20, 10);
 
@@ -101,24 +86,6 @@ public class TorusBoardTest extends CellTest {
         Cell cellWest = new Cell(19, 9);
         Cell cellSouthWest = new Cell(19, 0);
         Cell cellSouth = new Cell(0, 0);
-
-        board.add(cell).add(cellWest).add(cellSouthWest).add(cellSouth);
-
-        List<Cell> neighbours = board.getLivingNeighbours(cell);
-        assertSameCells(neighbours, cellWest, cellSouthWest, cellSouth);
-    }
-
-    @Test
-    public void testGetDeadNeighbours_bottom_left() {
-
-        TorusBoard board = new TorusBoard(20, 10);
-
-        Cell cell = new Cell(0, 9);
-        Cell cellWest = new Cell(19, 9);
-        Cell cellSouthWest = new Cell(19, 0);
-        Cell cellSouth = new Cell(0, 0);
-
-        board.add(cell).add(cellWest).add(cellSouthWest).add(cellSouth);
 
         // Do not add dead Cells to Board
         Cell cellNorthEast = new Cell(19, 8);
@@ -127,12 +94,15 @@ public class TorusBoardTest extends CellTest {
         Cell cellEast = new Cell(1, 9);
         Cell cellSouthEast = new Cell(1, 0);
 
-        List<Cell> neighbours = board.getDeadNeighbours(cell);
-        assertSameCells(neighbours, cellNorthEast, cellNorth, cellNorthWest, cellEast, cellSouthEast);
+        board.add(cell).add(cellWest).add(cellSouthWest).add(cellSouth);
+
+        List<Cell> neighbours = board.getNeighbours(cell);
+        assertSameCells(neighbours,
+                cellWest, cellSouthWest, cellSouth, cellNorthEast, cellNorth, cellNorthWest, cellEast, cellSouthEast);
     }
 
     @Test
-    public void testGetLivingNeighbours_top_right() {
+    public void testGetNeighbours_top_right() {
 
         TorusBoard board = new TorusBoard(20, 10);
 
@@ -140,24 +110,6 @@ public class TorusBoardTest extends CellTest {
         Cell cellEast = new Cell(0, 0);
         Cell cellNorthEast = new Cell(0, 9);
         Cell cellNorth = new Cell(19, 9);
-
-        board.add(cell).add(cellEast).add(cellNorthEast).add(cellNorth);
-
-        List<Cell> neighbours = board.getLivingNeighbours(cell);
-        assertSameCells(neighbours, cellEast, cellNorthEast, cellNorth);
-    }
-
-    @Test
-    public void testGetDeadNeighbours_top_right() {
-
-        TorusBoard board = new TorusBoard(20, 10);
-
-        Cell cell = new Cell(19, 0);
-        Cell cellEast = new Cell(0, 0);
-        Cell cellNorthEast = new Cell(0, 9);
-        Cell cellNorth = new Cell(19, 9);
-
-        board.add(cell).add(cellEast).add(cellNorthEast).add(cellNorth);
 
         // Do not add dead Cells to Board
         Cell cellNorthWest = new Cell(18, 9);
@@ -166,12 +118,15 @@ public class TorusBoardTest extends CellTest {
         Cell cellSouth = new Cell(19, 1);
         Cell cellSouthEast = new Cell(0, 1);
 
-        List<Cell> neighbours = board.getDeadNeighbours(cell);
-        assertSameCells(neighbours, cellNorthWest, cellWest, cellSouthWest, cellSouth, cellSouthEast);
+        board.add(cell).add(cellEast).add(cellNorthEast).add(cellNorth);
+
+        List<Cell> neighbours = board.getNeighbours(cell);
+        assertSameCells(neighbours,
+                cellEast, cellNorthEast, cellNorth, cellNorthWest, cellWest, cellSouthWest, cellSouth, cellSouthEast);
     }
 
     @Test
-    public void testGetLivingNeighbours_bottom_right() {
+    public void testGetNeighbours_bottom_right() {
 
         TorusBoard board = new TorusBoard(20, 10);
 
@@ -179,24 +134,6 @@ public class TorusBoardTest extends CellTest {
         Cell cellEast = new Cell(0, 9);
         Cell cellSouthEast = new Cell(0, 0);
         Cell cellSouth = new Cell(19, 0);
-
-        board.add(cell).add(cellEast).add(cellSouthEast).add(cellSouth);
-
-        List<Cell> neighbours = board.getLivingNeighbours(cell);
-        assertSameCells(neighbours, cellEast, cellSouthEast, cellSouth);
-    }
-
-    @Test
-    public void testGetDeadNeighbours_bottom_right() {
-
-        TorusBoard board = new TorusBoard(20, 10);
-
-        Cell cell = new Cell(19, 9);
-        Cell cellEast = new Cell(0, 9);
-        Cell cellSouthEast = new Cell(0, 0);
-        Cell cellSouth = new Cell(19, 0);
-
-        board.add(cell).add(cellEast).add(cellSouthEast).add(cellSouth);
 
         // Do not add dead Cells to Board
         Cell cellSouthWest = new Cell(18, 0);
@@ -205,12 +142,15 @@ public class TorusBoardTest extends CellTest {
         Cell cellNorth = new Cell(19, 8);
         Cell cellNorthEast = new Cell(0, 8);
 
-        List<Cell> neighbours = board.getDeadNeighbours(cell);
-        assertSameCells(neighbours, cellSouthWest, cellWest, cellNorthWest, cellNorth, cellNorthEast);
+        board.add(cell).add(cellEast).add(cellSouthEast).add(cellSouth);
+
+        List<Cell> neighbours = board.getNeighbours(cell);
+        assertSameCells(neighbours,
+                cellEast, cellSouthEast, cellSouth, cellSouthWest, cellWest, cellNorthWest, cellNorth, cellNorthEast);
     }
 
     @Test
-    public void testGetLivingNeighbours_default() {
+    public void testGetNeighbours_default() {
 
         TorusBoard board = new TorusBoard(20, 10);
 
@@ -218,24 +158,6 @@ public class TorusBoardTest extends CellTest {
         Cell cellEast = new Cell(6, 5);
         Cell cellSouthEast = new Cell(6, 6);
         Cell cellSouth = new Cell(5, 6);
-
-        board.add(cell).add(cellEast).add(cellSouthEast).add(cellSouth);
-
-        List<Cell> neighbours = board.getLivingNeighbours(cell);
-        assertSameCells(neighbours, cellEast, cellSouthEast, cellSouth);
-    }
-
-    @Test
-    public void testGetDeadNeighbours_default() {
-
-        TorusBoard board = new TorusBoard(20, 10);
-
-        Cell cell = new Cell(5, 5);
-        Cell cellEast = new Cell(6, 5);
-        Cell cellSouthEast = new Cell(6, 6);
-        Cell cellSouth = new Cell(5, 6);
-
-        board.add(cell).add(cellEast).add(cellSouthEast).add(cellSouth);
 
         // Do not add dead Cells to Board
         Cell cellSouthWest = new Cell(4, 6);
@@ -244,7 +166,10 @@ public class TorusBoardTest extends CellTest {
         Cell cellNorth = new Cell(5, 4);
         Cell cellNorthEast = new Cell(6, 4);
 
-        List<Cell> neighbours = board.getDeadNeighbours(cell);
-        assertSameCells(neighbours, cellSouthWest, cellWest, cellNorthWest, cellNorth, cellNorthEast);
+        board.add(cell).add(cellEast).add(cellSouthEast).add(cellSouth);
+
+        List<Cell> neighbours = board.getNeighbours(cell);
+        assertSameCells(neighbours,
+                cellEast, cellSouthEast, cellSouth, cellSouthWest, cellWest, cellNorthWest, cellNorth, cellNorthEast);
     }
 }
