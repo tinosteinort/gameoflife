@@ -11,6 +11,8 @@ import java.util.*;
  */
 public abstract class Board {
 
+    public static final int NEIGHBOUR_COUNT = 8;
+
     private final StatusCalculator calculator = new StatusCalculator();
 
     private final List<Cell> livingCells = new ArrayList<>();

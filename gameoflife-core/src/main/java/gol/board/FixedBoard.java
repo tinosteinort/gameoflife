@@ -30,7 +30,7 @@ public class FixedBoard extends BoundedBoard {
     }
 
     private List<Cell> getNeighbours(final Cell cell, final Status status) {
-        final List<Cell> neighbours = new ArrayList<>();
+        final List<Cell> neighbours = new ArrayList<>(NEIGHBOUR_COUNT);
 
         for (int x = cell.getX() - 1; x <= cell.getX() + 1; x++) {
             for (int y = cell.getY() - 1; y <= cell.getY() + 1; y++) {
