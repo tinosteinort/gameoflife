@@ -17,6 +17,7 @@ Zusammenfassung meiner gewonnenen Ideen beim Coderetreat (Game of Life) des
 	* Torusförmiges Brett mit fester Breite und Höhe
 	* Unendlich großes Brett
 - einige vordefinierte Populationen
+- einfügen von im "Life 1.06" Format vordefinierter Figuren per Rechtsklick
 
 # Frameworks #
 - JUnit
@@ -25,6 +26,9 @@ Zusammenfassung meiner gewonnenen Ideen beim Coderetreat (Game of Life) des
     - CSS Styling (Toolbarbuttons)
     - Zeichnen auf Canvas
 - Jaxb zum Speichern und Laden des Spielstands
+
+# Links #
+Life 1.06 File Format: [ConwayLife](http://www.conwaylife.com/wiki/Life_1.06)
 
 Icons von [famfamfam](http://www.famfamfam.com/lab/icons/silk/).
 

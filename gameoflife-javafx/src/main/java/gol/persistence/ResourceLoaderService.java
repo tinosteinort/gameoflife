@@ -16,7 +16,11 @@ import java.util.List;
 public class ResourceLoaderService {
 
     private final static String RESOURCEFOLDER = "contextmenu/";
-    private final List<String> resources = Arrays.asList("Glider.lif");
+    private final List<String> resources = Arrays.asList(
+            "Glider.lif",
+            "Lightweight Spaceship.lif",
+            "Middleweight Spaceship.lif",
+            "Heavyweight Spaceship.lif");
 
     public List<ResourceFigure> loadBuildInFigures() {
         final List<ResourceFigure> figures = new ArrayList<>(resources.size());
