@@ -1,5 +1,8 @@
 package gol.gui;
 
+import gol.persistence.ResourceFigure;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
@@ -7,6 +10,7 @@ import javafx.stage.Window;
 import javafx.util.Callback;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Optional;
 
@@ -120,5 +124,41 @@ public class DialogSupport {
         final Optional<ButtonType> result = alert.showAndWait();
 
         return result.isPresent() && result.get() == ButtonType.YES;
+    }
+
+    public Optional<ResourceFigure> getResourceFigureEditedByUser(final ResourceFigure originalfigure) {
+        final Dialog editDirectionDialog = new Dialog();
+        editDirectionDialog.setTitle("Game of Live");
+        editDirectionDialog.setHeaderText("Edit the Direction of the Figure.");
+
+        final FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("DirectionDialgGui.fxml"));
+        try {
+            final Node node = loader.load();
+            editDirectionDialog.getDialogPane().setContent(node);
+        }
+        catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+
+        final DirectionDialogGui controller = loader.getController();
+        controller.setFigureToEdit(originalfigure);
+        controller.initController();
+
+        final ButtonType okButtonType = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
+        final ButtonType cancelButtonType = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+        editDirectionDialog.getDialogPane().getButtonTypes().addAll(cancelButtonType, okButtonType);
+
+        editDirectionDialog.setResultConverter(new Callback<ButtonType, ResourceFigure>() {
+            @Override
+            public ResourceFigure call(final ButtonType param) {
+                if (param == okButtonType) {
+                    return controller.getCurrentResourceFigure();
+                }
+                return null;
+            }
+        });
+
+        return editDirectionDialog.showAndWait();
     }
 }

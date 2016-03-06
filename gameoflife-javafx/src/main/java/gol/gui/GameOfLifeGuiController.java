@@ -88,7 +88,10 @@ public class GameOfLifeGuiController {
             contextMenu.getItems().add(item);
 
             item.setOnAction((ActionEvent event) -> {
-                addResourceFigureToBoard(resourceFigure);
+                final Optional<ResourceFigure> figureOptional = dialogSupport.getResourceFigureEditedByUser(resourceFigure);
+                if (figureOptional.isPresent()) {
+                    addResourceFigureToBoard(resourceFigure);
+                }
             });
         }
     }
