@@ -2,9 +2,8 @@ package gol.gui;
 
 import gol.Cell;
 import gol.board.*;
-import gol.persistence.ConversionService;
-import gol.persistence.PersistenceService;
-import gol.persistence.XmlGameOfLifeState;
+import gol.persistence.*;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.Canvas;
@@ -16,6 +15,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
 import java.nio.file.Path;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -45,8 +45,12 @@ public class GameOfLifeGuiController {
     @FXML private Button upBtn;
     @FXML private Button downBtn;
 
+    private final ContextMenu contextMenu = new ContextMenu();
+    private Optional<Cell> cellForContextMenu = Optional.empty();
+
     private final ConversionService conversionService;
     private final PersistenceService persistenceService;
+    private final ResourceLoaderService resourceLoaderService;
 
     private BoardPainter boardPainter;
 
@@ -58,6 +62,7 @@ public class GameOfLifeGuiController {
     public GameOfLifeGuiController() {
         this.conversionService = new ConversionService();
         this.persistenceService = new PersistenceService();
+        this.resourceLoaderService = new ResourceLoaderService();
     }
 
     public void initController(final DialogSupport dialogSupport) {
@@ -68,10 +73,24 @@ public class GameOfLifeGuiController {
 
         timer = new StepTimer(500, () -> doNextStep());
 
+        initContextMenu();
         initBindings();
         initListener();
 
         calculateToolbarStatus();
+    }
+
+    private void initContextMenu() {
+        final List<ResourceFigure> resourceFigures = resourceLoaderService.loadBuildInFigures();
+        for (ResourceFigure resourceFigure : resourceFigures) {
+
+            final MenuItem item = new MenuItem(resourceFigure.getName());
+            contextMenu.getItems().add(item);
+
+            item.setOnAction((ActionEvent event) -> {
+                addResourceFigureToBoard(resourceFigure);
+            });
+        }
     }
 
     private void initBindings() {
@@ -86,24 +105,20 @@ public class GameOfLifeGuiController {
     private void initListener() {
 
         canvas.setOnMouseClicked((MouseEvent event) -> {
-            if (!painterIsAvailable()) {
+            contextMenu.hide();
+            cellForContextMenu = Optional.empty();
+
+            final Optional<Cell> clickedCell = getCellOnBoard(event);
+            if (!clickedCell.isPresent()) {
                 return;
             }
 
-            final Point2D boardPos = boardPainter.getPosOnBoard(event.getX(), event.getY());
-            final Optional<Cell> clickedCell = boardPainter.getCellAt(boardPos);
-
-            if (clickedCell.isPresent()) {
-
-                final Cell cell = clickedCell.get();
-                if (board.cellIsAlive(cell)) {
-                    board.remove(cell);
-                }
-                else {
-                    board.add(cell);
-                }
-
-                paint();
+            if (event.isPopupTrigger()) {
+                cellForContextMenu = clickedCell;
+                contextMenu.show(canvas, event.getScreenX(), event.getScreenY());
+            }
+            else {
+                handleUserEditCell(clickedCell.get());
             }
         });
 
@@ -125,6 +140,42 @@ public class GameOfLifeGuiController {
 
             paint();
         });
+    }
+
+    private void addResourceFigureToBoard(final ResourceFigure figure) {
+        if (!cellForContextMenu.isPresent()) {
+            return;
+        }
+
+        final Cell userClickedCell = cellForContextMenu.get();
+
+        for (Cell cell : figure.getCells()) {
+            final Cell newCell = new Cell(userClickedCell.getX() + cell.getX(),
+                                          userClickedCell.getY() + cell.getY());
+            board.add(newCell);
+        }
+
+        paint();
+    }
+
+    private Optional<Cell> getCellOnBoard(final MouseEvent event) {
+        if (!painterIsAvailable()) {
+            return Optional.empty();
+        }
+        final Point2D boardPos = boardPainter.getPosOnBoard(event.getX(), event.getY());
+        return  boardPainter.getCellAt(boardPos);
+    }
+
+    private void handleUserEditCell(final Cell clickedCell) {
+
+        if (board.cellIsAlive(clickedCell)) {
+            board.remove(clickedCell);
+        }
+        else {
+            board.add(clickedCell);
+        }
+
+        paint();
     }
 
     public void paint() {
