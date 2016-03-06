@@ -142,8 +142,7 @@ public class DialogSupport {
         }
 
         final DirectionDialogGui controller = loader.getController();
-        controller.setFigureToEdit(originalfigure);
-        controller.initController();
+        controller.initController(originalfigure);
 
         final ButtonType okButtonType = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
         final ButtonType cancelButtonType = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);

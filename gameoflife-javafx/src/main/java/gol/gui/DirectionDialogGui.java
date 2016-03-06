@@ -1,10 +1,7 @@
 package gol.gui;
 
 import gol.Cell;
-import gol.board.Board;
-import gol.board.BoardPainter;
-import gol.board.BoardPainterFactory;
-import gol.board.FixedBoard;
+import gol.board.*;
 import gol.persistence.ResourceFigure;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
@@ -12,30 +9,32 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Tino on 06.03.2016.
  */
 public class DirectionDialogGui {
 
     @FXML private Canvas canvas;
-    @FXML private Button leftBtn;
-    @FXML private Button rightBtn;
-    @FXML private Button upBtn;
-    @FXML private Button downBtn;
+    @FXML private Button leftRightBtn;
+    @FXML private Button upDownBtn;
 
     private Board board;
     private BoardPainter boardPainter;
 
     private ResourceFigure figure;
 
-    public void initController() {
+    public void initController(final ResourceFigure figureToEdit) {
+        this.figure = copy(figureToEdit);
+
         initBoard();
         refreshFigure();
     }
 
     private void initBoard() {
-        final BoardBounds bounds = getBoundsFromFigure(figure);
-        board = new FixedBoard(bounds.getWidth(), bounds.getHeight());
+        board = new EndlessBoard();
         boardPainter = new BoardPainterFactory().build(board, canvas.getWidth(), canvas.getHeight());
         boardPainter.setViewPortX(0);
         boardPainter.setViewPortY(0);
@@ -43,37 +42,56 @@ public class DirectionDialogGui {
         boardPainter.viewPortHeightProperty().bind(canvas.heightProperty());
     }
 
-    @FXML private void mirrorLeft() {
-
-    }
-
-    @FXML private void mirrorRight() {
-
-    }
-
-    @FXML private void mirrorUp() {
-
-    }
-
-    @FXML private void mirrorDown() {
-
-    }
-
-    private BoardBounds getBoundsFromFigure(final ResourceFigure figure) {
-        int maxWidth = 0;
-        int maxHeight = 0;
+    @FXML private void mirrorLeftRight() {
+        final ResourceFigure mirroredFigure = new ResourceFigure(figure.getName());
 
         for (Cell cell : figure.getCells()) {
-            maxWidth = Math.max(maxWidth, cell.getX() + 1);
-            maxHeight = Math.max(maxHeight, cell.getY() + 1);
+            final Cell mirroredXCell = new Cell(-cell.getX(), cell.getY());
+            mirroredFigure.getCells().add(mirroredXCell);
         }
 
-        return new BoardBounds(maxWidth, maxHeight);
+        figure = mirroredFigure;
+
+        refreshFigure();
+    }
+
+    @FXML private void mirrorUpDown() {
+        final ResourceFigure mirroredFigure = new ResourceFigure(figure.getName());
+
+        for (Cell cell : figure.getCells()) {
+            final Cell mirroredXCell = new Cell(cell.getX(), -cell.getY());
+            mirroredFigure.getCells().add(mirroredXCell);
+        }
+
+        figure = mirroredFigure;
+
+        refreshFigure();
+    }
+
+    private int findMinX(final List<Cell> cells) {
+        int minX = 0;
+        for (Cell cell : cells) {
+            minX = Math.min(minX, cell.getX());
+        }
+        return minX;
+    }
+
+    private int findMinY(final List<Cell> cells) {
+        int minY = 0;
+        for (Cell cell : cells) {
+            minY = Math.min(minY, cell.getY());
+        }
+        return minY;
     }
 
     private void refreshFigure() {
         board.clear();
         board.addAll(figure.getCells());
+
+        final int minX = findMinX(figure.getCells());
+        final int minY = findMinY(figure.getCells());
+        boardPainter.setViewPortX(minX);
+        boardPainter.setViewPortY(minY);
 
         paint();
     }
@@ -95,10 +113,28 @@ public class DirectionDialogGui {
     }
 
     public ResourceFigure getCurrentResourceFigure() {
+
+        final List<Cell> normalisedCells = normalise(figure.getCells());
+        figure.getCells().clear();
+        figure.getCells().addAll(normalisedCells);
+
         return figure;
     }
 
-    public void setFigureToEdit(final ResourceFigure figureToEdit) {
-        this.figure = copy(figureToEdit);
+    private List<Cell> normalise(final List<Cell> cells) {
+        int minX = findMinX(figure.getCells());
+        int minY = findMinY(figure.getCells());
+
+        minX = (minX > 0 ? 0 : minX);
+        minY = (minY > 0 ? 0 : minY);
+
+        final List<Cell> normalisedCells = new ArrayList<>(cells.size());
+        for (Cell cell : figure.getCells()) {
+            final Cell normalizedCell = new Cell(cell.getX() + Math.abs(minX),
+                    cell.getY() + Math.abs(minY));
+            normalisedCells.add(normalizedCell);
+        }
+
+        return normalisedCells;
     }
 }
