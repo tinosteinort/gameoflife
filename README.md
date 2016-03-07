@@ -30,6 +30,8 @@ Zusammenfassung meiner gewonnenen Ideen beim Coderetreat (Game of Life) des
 # Links #
 Life 1.06 File Format: [ConwayLife](http://www.conwaylife.com/wiki/Life_1.06)
 
-Icons von [famfamfam](http://www.famfamfam.com/lab/icons/silk/).
+Einige Icons von [famfamfam](http://www.famfamfam.com/lab/icons/silk/).
+
+Einige Icons von [Yusuke Kamiyamane](http://p.yusukekamiyamane.com/).
 
 ![GameOfLife](GameOfLife.png)

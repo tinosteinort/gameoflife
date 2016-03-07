@@ -37,3 +37,11 @@
 #tb_btn_navigate_down {
     -fx-graphic: url('/icons/arrow_down.png');
 }
+
+#btn_mirror_left_right {
+    -fx-graphic: url('/icons/arrow-resize.png');
+}
+
+#btn_mirror_up_down {
+    -fx-graphic: url('/icons/arrow-resize-090.png');
+}

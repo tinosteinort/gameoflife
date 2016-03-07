@@ -114,14 +114,14 @@ public class DirectionDialogGui {
 
     public ResourceFigure getCurrentResourceFigure() {
 
-        final List<Cell> normalisedCells = normalise(figure.getCells());
+        final List<Cell> normalisedCells = moveToPositionZero(figure.getCells());
         figure.getCells().clear();
         figure.getCells().addAll(normalisedCells);
 
         return figure;
     }
 
-    private List<Cell> normalise(final List<Cell> cells) {
+    private List<Cell> moveToPositionZero(final List<Cell> cells) {
         int minX = findMinX(figure.getCells());
         int minY = findMinY(figure.getCells());
 

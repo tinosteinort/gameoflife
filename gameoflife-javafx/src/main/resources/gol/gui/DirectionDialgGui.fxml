@@ -11,8 +11,8 @@
       <Canvas fx:id="canvas" height="151.0" width="200.0" />
       <HBox alignment="CENTER" prefHeight="27.0" prefWidth="600.0">
          <children>
-            <Button id="tb_btn_navigate_left" fx:id="leftRightBtn" mnemonicParsing="false" onAction="#mirrorLeftRight" />
-            <Button id="tb_btn_navigate_up" fx:id="upDownBtn" mnemonicParsing="false" onAction="#mirrorUpDown" />
+            <Button id="btn_mirror_left_right" fx:id="leftRightBtn" mnemonicParsing="false" onAction="#mirrorLeftRight" />
+            <Button id="btn_mirror_up_down" fx:id="upDownBtn" mnemonicParsing="false" onAction="#mirrorUpDown" />
          </children>
       </HBox>
    </children>
