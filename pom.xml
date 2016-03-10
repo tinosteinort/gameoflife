@@ -19,9 +19,14 @@
 		</developer>
 	</developers>
 
+	<scm>
+		<developerConnection>scm:git:git@github.com:tinosteinort/gameoflife.git</developerConnection>
+	</scm>
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<version.junit>4.11</version.junit>
+		<version.maven-release-plugin>2.5.3</version.maven-release-plugin>
 	</properties>
 
 	<dependencyManagement>
@@ -55,6 +60,11 @@
 						<source>1.8</source>
 						<target>1.8</target>
 					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-release-plugin</artifactId>
+					<version>${version.maven-release-plugin}</version>
 				</plugin>
 			</plugins>
 		</pluginManagement>
