@@ -1,3 +1,9 @@
+[ ] Use maven-release-plugin
+[ ] Use AMapper
+[ ] Use Spring for DI
+[ ] Board Painter als eigene Componente
+[ ] JNLP
+
 * use long instead of int for x/y of Cell
 * EndlessBoard not endless, but width/height = Long.MAX_VALUE
 * use BigInteger instead of int / long
