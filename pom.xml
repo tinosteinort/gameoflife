@@ -26,6 +26,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<version.junit>4.11</version.junit>
+		<version.maven-compiler-plugin>3.5.1</version.maven-compiler-plugin>
 		<version.maven-release-plugin>2.5.3</version.maven-release-plugin>
 	</properties>
 
@@ -56,6 +57,7 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-compiler-plugin</artifactId>
+					<version>${version.maven-compiler-plugin}</version>
 					<configuration>
 						<source>1.8</source>
 						<target>1.8</target>
