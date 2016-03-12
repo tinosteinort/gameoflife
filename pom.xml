@@ -4,7 +4,7 @@
 	<groupId>tse.gameoflife</groupId>
 	<artifactId>gameoflife</artifactId>
 	<packaging>pom</packaging>
-	<version>0.0.1</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<name>GameOfLife</name>
 
 	<modules>
@@ -21,7 +21,7 @@
 
 	<scm>
 		<developerConnection>scm:git:git@github.com:tinosteinort/gameoflife.git</developerConnection>
-	  <tag>v0.0.1</tag>
+	  <tag>HEAD</tag>
   </scm>
 
 	<properties>
@@ -36,12 +36,12 @@
 			<dependency>
 				<groupId>tse.gameoflife</groupId>
 				<artifactId>gameoflife-core</artifactId>
-				<version>0.0.1</version>
+				<version>0.0.2-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>tse.gameoflife</groupId>
 				<artifactId>gameoflife-javafx</artifactId>
-				<version>0.0.1</version>
+				<version>0.0.2-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>junit</groupId>
