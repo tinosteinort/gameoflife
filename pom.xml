@@ -36,28 +36,28 @@
 		<version.versions-maven-plugin>2.2</version.versions-maven-plugin>
 	</properties>
 
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>tse.gameoflife</groupId>
-				<artifactId>gameoflife-core</artifactId>
-				<version>0.0.2-SNAPSHOT</version>
-			</dependency>
-			<dependency>
-				<groupId>tse.gameoflife</groupId>
-				<artifactId>gameoflife-javafx</artifactId>
-				<version>0.0.2-SNAPSHOT</version>
-			</dependency>
-			<dependency>
-				<groupId>junit</groupId>
-				<artifactId>junit</artifactId>
-				<version>${version.junit}</version>
-				<scope>test</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>tse.gameoflife</groupId>
+                <artifactId>gameoflife-core</artifactId>
+                <version>0.0.2-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>tse.gameoflife</groupId>
+                <artifactId>gameoflife-javafx</artifactId>
+                <version>0.0.2-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${version.junit}</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
-	<build>
+    <build>
 		<pluginManagement>
 			<plugins>
 				<plugin>
