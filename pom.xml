@@ -24,11 +24,16 @@
 	  <tag>HEAD</tag>
   </scm>
 
+	<prerequisites>
+		<maven>3.0</maven>
+	</prerequisites>
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<version.junit>4.11</version.junit>
+		<version.junit>4.12</version.junit>
 		<version.maven-compiler-plugin>3.5.1</version.maven-compiler-plugin>
 		<version.maven-release-plugin>2.5.3</version.maven-release-plugin>
+		<version.versions-maven-plugin>2.2</version.versions-maven-plugin>
 	</properties>
 
 	<dependencyManagement>
@@ -71,6 +76,11 @@
 					<configuration>
                         <tagNameFormat>v@{project.version}</tagNameFormat>
                     </configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>versions-maven-plugin</artifactId>
+					<version>${version.versions-maven-plugin}</version>
 				</plugin>
 			</plugins>
 		</pluginManagement>
