@@ -1,4 +1,5 @@
-[ ] Use maven-release-plugin
+[X] Use maven-release-plugin
+    -> mit maven-versions-plugin ersetzt
 [ ] Use AMapper
 [ ] Use Spring for DI
 [ ] Board Painter als eigene Componente
