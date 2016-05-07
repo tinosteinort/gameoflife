@@ -1,0 +1,20 @@
+Projektversion mit dem maven-versions-plugin hochzählen
+
+Version hochzählen
+> mvn verions:set -DnewVersion={new.Version} 	// z.B.: 0.0.2
+> mvn versions:commit 							// Löscht die Backups der pom.xml Dateien
+
+Geänderte pom.xml committen
+> git add .
+> git commit -m "New Version"
+
+Tag für die neue Version erstellen
+> git tag v{new.version} // z.B.: v0.0.2
+
+Neue Entwicklungsversion setzen
+> mvn verions:set -DnewVersion={new.Version} 	// e.g. 0.0.3-SNAPSHOT
+> mvn versions:commit                           // Löscht die Backups der pom.xml Dateien
+
+Geänderte pom.xml committen
+> git add .
+> git commit -m "Next Development Version"
