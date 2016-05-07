@@ -19,11 +19,6 @@
 		</developer>
 	</developers>
 
-	<scm>
-		<developerConnection>scm:git:git@github.com:tinosteinort/gameoflife.git</developerConnection>
-	  <tag>HEAD</tag>
-  </scm>
-
 	<prerequisites>
 		<maven>3.0</maven>
 	</prerequisites>
@@ -32,7 +27,6 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<version.junit>4.12</version.junit>
 		<version.maven-compiler-plugin>3.5.1</version.maven-compiler-plugin>
-		<version.maven-release-plugin>2.5.3</version.maven-release-plugin>
 		<version.versions-maven-plugin>2.2</version.versions-maven-plugin>
 	</properties>
 
@@ -75,14 +69,6 @@
 						<source>1.8</source>
 						<target>1.8</target>
 					</configuration>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-release-plugin</artifactId>
-					<version>${version.maven-release-plugin}</version>
-					<configuration>
-                        <tagNameFormat>v@{project.version}</tagNameFormat>
-                    </configuration>
 				</plugin>
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
