@@ -1,8 +1,6 @@
 package gol.gui;
 
 import gol.persistence.ResourceFigure;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
@@ -15,10 +13,10 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Optional;
 
@@ -36,10 +34,7 @@ public class DialogSupport {
     private Dialog<BoardBounds> boundsDialog;
 
     @Autowired private Stage window;
-
-    public DialogSupport() {
-
-    }
+    @Autowired ApplicationContext applicationContext;
 
     private FileChooser getFileChooser() {
         if (fileChooser == null) {
@@ -135,23 +130,15 @@ public class DialogSupport {
         return result.isPresent() && result.get() == ButtonType.YES;
     }
 
-    public Optional<ResourceFigure> getResourceFigureEditedByUser(final ResourceFigure originalfigure) {
+    public Optional<ResourceFigure> getResourceFigureEditedByUser(final ResourceFigure originalFigure) {
         final Dialog editDirectionDialog = new Dialog();
         editDirectionDialog.setTitle("Game of Live");
         editDirectionDialog.setHeaderText("Edit the Direction of the Figure.");
 
-        final FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("DirectionDialgGui.fxml"));
-        try {
-            final Node node = loader.load();
-            editDirectionDialog.getDialogPane().setContent(node);
-        }
-        catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
+        final DirectionDialogGuiController controller = applicationContext.getBean(DirectionDialogGuiController.class);
+        editDirectionDialog.getDialogPane().setContent(controller.getView());
 
-        final DirectionDialogGui controller = loader.getController();
-        controller.initController(originalfigure);
+        controller.setFigure(originalFigure);
 
         final ButtonType okButtonType = new ButtonType("Accept", ButtonBar.ButtonData.OK_DONE);
         final ButtonType cancelButtonType = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);

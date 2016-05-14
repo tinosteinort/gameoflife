@@ -1,13 +1,18 @@
 package gol.gui;
 
 import gol.Cell;
-import gol.board.*;
+import gol.FxmlController;
+import gol.board.Board;
+import gol.board.BoardPainter;
+import gol.board.BoardPainterFactory;
+import gol.board.EndlessBoard;
 import gol.persistence.ResourceFigure;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +20,8 @@ import java.util.List;
 /**
  * Created by Tino on 06.03.2016.
  */
-public class DirectionDialogGui {
+@Component
+public class DirectionDialogGuiController extends FxmlController {
 
     @FXML private Canvas canvas;
     @FXML private Button leftRightBtn;
@@ -26,11 +32,12 @@ public class DirectionDialogGui {
 
     private ResourceFigure figure;
 
-    public void initController(final ResourceFigure figureToEdit) {
-        this.figure = copy(figureToEdit);
+    @Override protected String getFxml() {
+        return "DirectionDialogGui.fxml";
+    }
 
+    @Override protected void afterFxmlInitialisation() {
         initBoard();
-        refreshFigure();
     }
 
     private void initBoard() {
@@ -40,6 +47,11 @@ public class DirectionDialogGui {
         boardPainter.setViewPortY(0);
         boardPainter.viewPortWidthProperty().bind(canvas.widthProperty());
         boardPainter.viewPortHeightProperty().bind(canvas.heightProperty());
+    }
+
+    public void setFigure(final ResourceFigure figureToEdit) {
+        figure = copy(figureToEdit);
+        refreshFigure();
     }
 
     @FXML private void mirrorLeftRight() {
