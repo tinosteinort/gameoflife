@@ -1,6 +1,7 @@
 package gol.persistence;
 
 import gol.Cell;
+import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,6 +14,7 @@ import java.util.List;
 /**
  * Created by Tino on 06.03.2016.
  */
+@Component
 public class ResourceLoaderService {
 
     private final static String RESOURCEFOLDER = "contextmenu/";

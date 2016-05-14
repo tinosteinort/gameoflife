@@ -66,22 +66,15 @@ public class GameOfLifeGuiController extends FxmlController {
     private final ContextMenu contextMenu = new ContextMenu();
     private Optional<Cell> cellForContextMenu = Optional.empty();
 
-    private final ConversionService conversionService;
-    private final PersistenceService persistenceService;
-    private final ResourceLoaderService resourceLoaderService;
-
     private BoardPainter boardPainter;
-
-    @Autowired private DialogSupport dialogSupport;
 
     private Board board;
     private StepTimer timer;
 
-    public GameOfLifeGuiController() {
-        this.conversionService = new ConversionService();
-        this.persistenceService = new PersistenceService();
-        this.resourceLoaderService = new ResourceLoaderService();
-    }
+    @Autowired private ConversionService conversionService;
+    @Autowired private PersistenceService persistenceService;
+    @Autowired private ResourceLoaderService resourceLoaderService;
+    @Autowired private DialogSupport dialogSupport;
 
     @Override protected String getFxml() {
         return "GameOfLifeGui.fxml";

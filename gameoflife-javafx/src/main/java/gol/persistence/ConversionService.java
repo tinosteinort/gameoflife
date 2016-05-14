@@ -2,12 +2,14 @@ package gol.persistence;
 
 import gol.Cell;
 import gol.board.*;
+import org.springframework.stereotype.Component;
 
 import java.util.stream.Collectors;
 
 /**
  * Created by Tino on 18.02.2016.
  */
+@Component
 public class ConversionService {
 
     public XmlGameOfLifeState convert(final Board board) {

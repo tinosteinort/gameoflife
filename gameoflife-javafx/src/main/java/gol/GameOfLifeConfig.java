@@ -3,6 +3,9 @@ package gol;
 import gol.gui.DialogSupport;
 import gol.gui.DirectionDialogGuiController;
 import gol.gui.GameOfLifeGuiController;
+import gol.persistence.ConversionService;
+import gol.persistence.PersistenceService;
+import gol.persistence.ResourceLoaderService;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,5 +28,17 @@ public class GameOfLifeConfig {
     @Bean @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
     public DialogSupport dialogSupport() {
         return new DialogSupport();
+    }
+
+    @Bean public ConversionService conversionService() {
+        return new ConversionService();
+    }
+
+    @Bean public PersistenceService persistenceService() {
+        return new PersistenceService();
+    }
+
+    @Bean public ResourceLoaderService resourceLoaderService() {
+        return new ResourceLoaderService();
     }
 }
