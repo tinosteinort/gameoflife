@@ -26,6 +26,9 @@ Zusammenfassung meiner gewonnenen Ideen beim Coderetreat (Game of Life) des
     - CSS Styling (Toolbarbuttons)
     - Zeichnen auf Canvas
 - Jaxb zum Speichern und Laden des Spielstands
+- Spring
+    - für Dependency Injection
+    - in Kombination mit JavaFX
 
 # Links #
 Life 1.06 File Format: [ConwayLife](http://www.conwaylife.com/wiki/Life_1.06)
