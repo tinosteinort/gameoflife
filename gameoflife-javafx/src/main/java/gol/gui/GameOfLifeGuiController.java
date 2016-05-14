@@ -1,18 +1,35 @@
 package gol.gui;
 
 import gol.Cell;
-import gol.board.*;
-import gol.persistence.*;
+import gol.FxmlController;
+import gol.board.Board;
+import gol.board.BoardPainter;
+import gol.board.BoardPainterFactory;
+import gol.board.EndlessBoard;
+import gol.board.FixedBoard;
+import gol.board.TorusBoard;
+import gol.persistence.ConversionService;
+import gol.persistence.PersistenceService;
+import gol.persistence.ResourceFigure;
+import gol.persistence.ResourceLoaderService;
+import gol.persistence.XmlGameOfLifeState;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.Slider;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.nio.file.Path;
 import java.util.List;
@@ -21,7 +38,8 @@ import java.util.Optional;
 /**
  * Created by Tino on 21.01.2016.
  */
-public class GameOfLifeGuiController {
+@Component
+public class GameOfLifeGuiController extends FxmlController {
 
     private final static int NAVIGATION_STEP_SIZE = 5;
 
@@ -54,7 +72,7 @@ public class GameOfLifeGuiController {
 
     private BoardPainter boardPainter;
 
-    private DialogSupport dialogSupport;
+    @Autowired private DialogSupport dialogSupport;
 
     private Board board;
     private StepTimer timer;
@@ -65,9 +83,11 @@ public class GameOfLifeGuiController {
         this.resourceLoaderService = new ResourceLoaderService();
     }
 
-    public void initController(final DialogSupport dialogSupport) {
+    @Override protected String getFxml() {
+        return "GameOfLifeGui.fxml";
+    }
 
-        this.dialogSupport = dialogSupport;
+    @Override protected void afterFxmlInitialisation() {
         canvas = new ResizableCanvas();
         canvasHolder.getChildren().add(canvas);
 

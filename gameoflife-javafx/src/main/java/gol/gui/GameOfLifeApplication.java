@@ -1,15 +1,16 @@
 package gol.gui;
 
+import gol.SpringBootstrap;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 /**
  * Created by Tino on 21.01.2016.
  */
-public class GameOfLifeGui extends Application {
+public class GameOfLifeApplication extends Application {
 
     public static void main(String[] args) {
         launch(args);
@@ -18,13 +19,11 @@ public class GameOfLifeGui extends Application {
     @Override
     public void start(final Stage primaryStage) throws Exception {
 
-        final FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("GameOfLifeGui.fxml"));
-        final Parent root = loader.load();
+        final AnnotationConfigApplicationContext context = new SpringBootstrap().bootstrap(primaryStage);
 
-        final GameOfLifeGuiController controller = loader.getController();
-        controller.initController(new DialogSupport(primaryStage));
+        final GameOfLifeGuiController controller = context.getBean(GameOfLifeGuiController.class);
 
+        final Parent root = (Parent) controller.getView();
         final Scene scene = new Scene(root, 700, 500);
 
         controller.paint();
