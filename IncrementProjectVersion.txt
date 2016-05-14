@@ -2,24 +2,31 @@ Projektversion mit dem maven-versions-plugin hochzählen
 
 Im Branch 'master'
 ------------------
-1. Version hochzählen
+1. Branch 'development' in Branch 'master' mergen
+> git checkout master
+> git merge development
+
+2. Version hochzählen
 > mvn verions:set -DnewVersion={new.Version} 	// z.B.: 0.0.2
 > mvn versions:commit 							// Löscht die Backups der pom.xml Dateien
 
-2. Geänderte pom.xml committen
+3. Geänderte pom.xml committen
 > git add .
 > git commit -m "New Version"
 
-3. Tag für die neue Version erstellen
+4. Tag für die neue Version erstellen
 > git tag v{new.version} // z.B.: v0.0.2
 
 
 Im Branch 'development'
 -----------------------
-1. Neue Entwicklungsversion setzen
+1. In den Branch 'development' wechseln
+> git checkout development
+
+2. Neue Entwicklungsversion setzen
 > mvn verions:set -DnewVersion={new.Version} 	// e.g. 0.0.3-SNAPSHOT
 > mvn versions:commit                           // Löscht die Backups der pom.xml Dateien
 
-2. Geänderte pom.xml committen
+3. Geänderte pom.xml committen
 > git add .
 > git commit -m "Next Development Version"
