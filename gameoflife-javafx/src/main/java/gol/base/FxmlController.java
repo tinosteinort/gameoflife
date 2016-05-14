@@ -1,4 +1,4 @@
-package gol;
+package gol.base;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;

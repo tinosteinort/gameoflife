@@ -1,4 +1,4 @@
-package gol;
+package gol.base;
 
 import gol.gui.DialogSupport;
 import gol.gui.DirectionDialogGuiController;

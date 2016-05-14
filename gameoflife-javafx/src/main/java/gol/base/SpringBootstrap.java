@@ -1,4 +1,4 @@
-package gol;
+package gol.base;
 
 import javafx.stage.Stage;
 import org.springframework.beans.factory.config.BeanDefinition;

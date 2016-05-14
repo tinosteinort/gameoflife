@@ -1,7 +1,7 @@
 package gol.gui;
 
 import gol.Cell;
-import gol.FxmlController;
+import gol.base.FxmlController;
 import gol.board.Board;
 import gol.board.BoardPainter;
 import gol.board.BoardPainterFactory;

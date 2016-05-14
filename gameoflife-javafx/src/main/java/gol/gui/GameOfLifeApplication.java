@@ -1,6 +1,6 @@
 package gol.gui;
 
-import gol.SpringBootstrap;
+import gol.base.SpringBootstrap;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
