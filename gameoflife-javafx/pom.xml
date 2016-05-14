@@ -5,7 +5,7 @@
     <parent>
         <artifactId>gameoflife</artifactId>
         <groupId>tse.gameoflife</groupId>
-        <version>0.0.3-SNAPSHOT</version>
+        <version>0.0.3</version>
     </parent>
     <packaging>jar</packaging>
     <artifactId>gameoflife-javafx</artifactId>
