@@ -1,5 +1,6 @@
 package gol.gui;
 
+import gol.base.StageHolder;
 import gol.persistence.ResourceFigure;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
@@ -10,7 +11,6 @@ import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 import javafx.util.Callback;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -33,7 +33,8 @@ public class DialogSupport {
 
     private Dialog<BoardBounds> boundsDialog;
 
-    @Autowired private Stage window;
+//    @Autowired private Stage window;
+    @Autowired private StageHolder window;
     @Autowired ApplicationContext applicationContext;
 
     private FileChooser getFileChooser() {
@@ -49,7 +50,7 @@ public class DialogSupport {
     }
 
     public Optional<Path> selectPathForOpen() {
-        final File selectedFile = getFileChooser().showOpenDialog(window);
+        final File selectedFile = getFileChooser().showOpenDialog(window.get());
         if (selectedFile == null) {
             return Optional.empty();
         }
@@ -59,7 +60,7 @@ public class DialogSupport {
     }
 
     public Optional<Path> selectPathForSave() {
-        final File selectedFile = getFileChooser().showSaveDialog(window);
+        final File selectedFile = getFileChooser().showSaveDialog(window.get());
         if (selectedFile == null) {
             return Optional.empty();
         }
