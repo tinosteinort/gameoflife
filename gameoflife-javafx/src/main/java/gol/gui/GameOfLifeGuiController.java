@@ -2,6 +2,7 @@ package gol.gui;
 
 import gol.Cell;
 import gol.base.FxmlController;
+import gol.base.injection.BeanRepository;
 import gol.board.Board;
 import gol.board.BoardPainter;
 import gol.board.BoardPainterFactory;
@@ -28,8 +29,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.nio.file.Path;
 import java.util.List;
@@ -38,7 +37,6 @@ import java.util.Optional;
 /**
  * Created by Tino on 21.01.2016.
  */
-@Component
 public class GameOfLifeGuiController extends FxmlController {
 
     private final static int NAVIGATION_STEP_SIZE = 5;
@@ -71,10 +69,17 @@ public class GameOfLifeGuiController extends FxmlController {
     private Board board;
     private StepTimer timer;
 
-    @Autowired private ConversionService conversionService;
-    @Autowired private PersistenceService persistenceService;
-    @Autowired private ResourceLoaderService resourceLoaderService;
-    @Autowired private DialogSupport dialogSupport;
+    private final ConversionService conversionService;
+    private final PersistenceService persistenceService;
+    private final ResourceLoaderService resourceLoaderService;
+    private final DialogSupport dialogSupport;
+
+    public GameOfLifeGuiController(final BeanRepository repository) {
+        this.conversionService = repository.get(ConversionService.class);
+        this.persistenceService = repository.get(PersistenceService.class);
+        this.resourceLoaderService = repository.get(ResourceLoaderService.class);
+        this.dialogSupport = repository.get(DialogSupport.class);
+    }
 
     @Override protected String getFxml() {
         return "GameOfLifeGui.fxml";
@@ -84,7 +89,7 @@ public class GameOfLifeGuiController extends FxmlController {
         canvas = new ResizableCanvas();
         canvasHolder.getChildren().add(canvas);
 
-        timer = new StepTimer(500, () -> doNextStep());
+        timer = new StepTimer(500, this::doNextStep);
 
         initContextMenu();
         initBindings();

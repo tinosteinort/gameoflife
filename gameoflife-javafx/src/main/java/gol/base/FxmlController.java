@@ -1,16 +1,16 @@
 package gol.base;
 
+import gol.base.injection.BeanRepository;
+import gol.base.injection.PostConstructible;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import org.springframework.beans.factory.InitializingBean;
 
-import javax.annotation.PostConstruct;
 import java.io.IOException;
 
 /**
  * Created by Tino on 14.05.2016.
  */
-public abstract class FxmlController implements InitializingBean {
+public abstract class FxmlController implements PostConstructible {
 
     protected Node view;
 
@@ -24,16 +24,15 @@ public abstract class FxmlController implements InitializingBean {
         return view;
     }
 
-    // @PostConstruct kann anscheinend nicht genutzt werden, wenn mit ClassPathXmlApplicationContext geabreitet wird
     @Override
-    public void afterPropertiesSet() throws IOException {
-        view = loadFxml();
+    public void onPostConstruct(final BeanRepository repository) {
+        try {
+            view = loadFxml();
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
         afterFxmlInitialisation();
     }
-//    @PostConstruct  private void initializeController() throws IOException {
-//        view = loadFxml();
-//        afterFxmlInitialisation();
-//    }
 
     protected Node loadFxml() throws IOException {
         final FXMLLoader loader = new FXMLLoader();

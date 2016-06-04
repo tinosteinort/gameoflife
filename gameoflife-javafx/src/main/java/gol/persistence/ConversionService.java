@@ -1,15 +1,17 @@
 package gol.persistence;
 
 import gol.Cell;
-import gol.board.*;
-import org.springframework.stereotype.Component;
+import gol.board.Board;
+import gol.board.BoundedBoard;
+import gol.board.EndlessBoard;
+import gol.board.FixedBoard;
+import gol.board.TorusBoard;
 
 import java.util.stream.Collectors;
 
 /**
  * Created by Tino on 18.02.2016.
  */
-@Component
 public class ConversionService {
 
     public XmlGameOfLifeState convert(final Board board) {

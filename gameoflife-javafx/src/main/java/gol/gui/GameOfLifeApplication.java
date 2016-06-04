@@ -1,13 +1,11 @@
 package gol.gui;
 
-import gol.base.SpringBootstrap;
-import gol.base.StageHolder;
+import gol.base.BeanBootstrap;
+import gol.base.injection.BeanRepository;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  * Created by Tino on 21.01.2016.
@@ -21,12 +19,9 @@ public class GameOfLifeApplication extends Application {
     @Override
     public void start(final Stage primaryStage) throws Exception {
 
-//        final AnnotationConfigApplicationContext context = new SpringBootstrap().bootstrap(primaryStage);
-        final ClassPathXmlApplicationContext context = new SpringBootstrap().bootstrap(primaryStage);
+        final BeanRepository repository = new BeanBootstrap().bootstrap(primaryStage);
 
-        final StageHolder holder = context.getBean(StageHolder.class);
-        holder.set(primaryStage);
-        final GameOfLifeGuiController controller = context.getBean(GameOfLifeGuiController.class);
+        final GameOfLifeGuiController controller = repository.get(GameOfLifeGuiController.class);
 
         final Parent root = (Parent) controller.getView();
         final Scene scene = new Scene(root, 700, 500);

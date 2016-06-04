@@ -1,7 +1,5 @@
 package gol.persistence;
 
-import org.springframework.stereotype.Component;
-
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -15,7 +13,6 @@ import java.nio.file.Path;
 /**
  * Created by Tino on 18.02.2016.
  */
-@Component
 public class PersistenceService {
 
     private final Marshaller marshaller;

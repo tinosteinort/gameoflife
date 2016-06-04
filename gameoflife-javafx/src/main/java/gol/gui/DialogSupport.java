@@ -1,6 +1,6 @@
 package gol.gui;
 
-import gol.base.StageHolder;
+import gol.base.injection.BeanRepository;
 import gol.persistence.ResourceFigure;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
@@ -11,10 +11,8 @@ import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import javafx.util.Callback;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -23,7 +21,6 @@ import java.util.Optional;
 /**
  * Created by Tino on 19.02.2016.
  */
-@Component
 public class DialogSupport {
 
     private FileChooser fileChooser;
@@ -33,9 +30,13 @@ public class DialogSupport {
 
     private Dialog<BoardBounds> boundsDialog;
 
-//    @Autowired private Stage window;
-    @Autowired private StageHolder window;
-    @Autowired ApplicationContext applicationContext;
+    private final Stage window;
+    private final BeanRepository repository;
+
+    public DialogSupport(final BeanRepository repository) {
+        this.window = repository.get(Stage.class);
+        this.repository = repository;
+    }
 
     private FileChooser getFileChooser() {
         if (fileChooser == null) {
@@ -50,7 +51,7 @@ public class DialogSupport {
     }
 
     public Optional<Path> selectPathForOpen() {
-        final File selectedFile = getFileChooser().showOpenDialog(window.get());
+        final File selectedFile = getFileChooser().showOpenDialog(window);
         if (selectedFile == null) {
             return Optional.empty();
         }
@@ -60,7 +61,7 @@ public class DialogSupport {
     }
 
     public Optional<Path> selectPathForSave() {
-        final File selectedFile = getFileChooser().showSaveDialog(window.get());
+        final File selectedFile = getFileChooser().showSaveDialog(window);
         if (selectedFile == null) {
             return Optional.empty();
         }
@@ -136,7 +137,7 @@ public class DialogSupport {
         editDirectionDialog.setTitle("Game of Live");
         editDirectionDialog.setHeaderText("Edit the Direction of the Figure.");
 
-        final DirectionDialogGuiController controller = applicationContext.getBean(DirectionDialogGuiController.class);
+        final DirectionDialogGuiController controller = repository.get(DirectionDialogGuiController.class);
         editDirectionDialog.getDialogPane().setContent(controller.getView());
 
         controller.setFigure(originalFigure);

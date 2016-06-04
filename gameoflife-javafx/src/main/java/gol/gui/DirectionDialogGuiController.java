@@ -12,7 +12,6 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
-import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +19,6 @@ import java.util.List;
 /**
  * Created by Tino on 06.03.2016.
  */
-@Component
 public class DirectionDialogGuiController extends FxmlController {
 
     @FXML private Canvas canvas;

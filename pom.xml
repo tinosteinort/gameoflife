@@ -28,8 +28,6 @@
 		<version.junit>4.12</version.junit>
 		<version.maven-compiler-plugin>3.5.1</version.maven-compiler-plugin>
 		<version.versions-maven-plugin>2.2</version.versions-maven-plugin>
-        <version.spring-context>4.2.6.RELEASE</version.spring-context>
-        <!--<version.spring-beans>4.2.6.RELEASE</version.spring-beans>-->
 		<version.jnlp-api>7.0</version.jnlp-api>
 		<version.webstart-maven-plugin>1.0-beta-7</version.webstart-maven-plugin>
 		<!--<version.maven-jar-plugin>3.0.0</version.maven-jar-plugin>-->
@@ -53,16 +51,6 @@
                 <version>${version.junit}</version>
                 <scope>test</scope>
             </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-context</artifactId>
-                <version>${version.spring-context}</version>
-            </dependency>
-			<!--<dependency>-->
-				<!--<groupId>org.springframework</groupId>-->
-				<!--<artifactId>spring-beans</artifactId>-->
-				<!--<version>${version.spring-beans}</version>-->
-			<!--</dependency>-->
 			<dependency>
 				<groupId>javax.jnlp</groupId>
 				<artifactId>jnlp-api</artifactId>

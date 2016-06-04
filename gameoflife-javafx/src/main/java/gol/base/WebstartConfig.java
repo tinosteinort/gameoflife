@@ -1,18 +1,8 @@
 package gol.base;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-
-import javax.jnlp.BasicService;
-import javax.jnlp.ServiceManager;
-import javax.jnlp.UnavailableServiceException;
-import java.net.MalformedURLException;
-import java.net.URL;
-
 /**
  * Created by Tino on 14.05.2016.
  */
-@Configuration
 public class WebstartConfig {
 
 //    @Bean
