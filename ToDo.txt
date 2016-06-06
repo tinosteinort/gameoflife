@@ -1,6 +1,7 @@
 [X] Use maven-release-plugin
     -> mit maven-versions-plugin ersetzt
 [X] Use Spring for DI
+    -> own DI without Reflection
 [ ] Use AMapper
 [ ] Board Painter als eigene Componente
 [ ] JNLP
