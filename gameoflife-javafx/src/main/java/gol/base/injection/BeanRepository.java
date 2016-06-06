@@ -27,7 +27,6 @@ public class BeanRepository {
     public static class BeanRepositoryBuilder {
 
         private final Map<Class<?>, BeanProvider> beanCreators = new HashMap<>();
-        private final BeanRepository repository = new BeanRepository(beanCreators);
 
         public <T> BeanRepositoryBuilder singleton(final Class<T> cls, final Function<BeanRepository, T> creator) {
             beanCreators.put(cls, new SingletonProvider(creator));
@@ -55,7 +54,7 @@ public class BeanRepository {
         }
 
         public BeanRepository build() {
-            return repository;
+            return new BeanRepository(beanCreators);
         }
     }
 }
