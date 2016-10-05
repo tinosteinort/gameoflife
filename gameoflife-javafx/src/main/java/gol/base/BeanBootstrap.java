@@ -1,6 +1,6 @@
 package gol.base;
 
-import gol.base.injection.BeanRepository;
+import com.github.tinosteinort.beanrepository.BeanRepository;
 import gol.gui.DialogSupport;
 import gol.gui.DirectionDialogGuiController;
 import gol.gui.GameOfLifeGuiController;

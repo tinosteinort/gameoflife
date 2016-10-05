@@ -1,6 +1,6 @@
 package gol.gui;
 
-import gol.base.injection.BeanRepository;
+import com.github.tinosteinort.beanrepository.BeanAccessor;
 import gol.persistence.ResourceFigure;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
@@ -31,11 +31,11 @@ public class DialogSupport {
     private Dialog<BoardBounds> boundsDialog;
 
     private final Stage window;
-    private final BeanRepository repository;
+    private final BeanAccessor accessor;
 
-    public DialogSupport(final BeanRepository repository) {
-        this.window = repository.get(Stage.class);
-        this.repository = repository;
+    public DialogSupport(final BeanAccessor accessor) {
+        this.window = accessor.getBean(Stage.class);
+        this.accessor = accessor;
     }
 
     private FileChooser getFileChooser() {
@@ -137,7 +137,7 @@ public class DialogSupport {
         editDirectionDialog.setTitle("Game of Live");
         editDirectionDialog.setHeaderText("Edit the Direction of the Figure.");
 
-        final DirectionDialogGuiController controller = repository.get(DirectionDialogGuiController.class);
+        final DirectionDialogGuiController controller = accessor.getBean(DirectionDialogGuiController.class);
         editDirectionDialog.getDialogPane().setContent(controller.getView());
 
         controller.setFigure(originalFigure);

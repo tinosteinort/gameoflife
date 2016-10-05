@@ -1,7 +1,7 @@
 package gol.gui;
 
+import com.github.tinosteinort.beanrepository.BeanRepository;
 import gol.base.BeanBootstrap;
-import gol.base.injection.BeanRepository;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -21,7 +21,7 @@ public class GameOfLifeApplication extends Application {
 
         final BeanRepository repository = new BeanBootstrap().bootstrap(primaryStage);
 
-        final GameOfLifeGuiController controller = repository.get(GameOfLifeGuiController.class);
+        final GameOfLifeGuiController controller = repository.getBean(GameOfLifeGuiController.class);
 
         final Parent root = (Parent) controller.getView();
         final Scene scene = new Scene(root, 700, 500);

@@ -1,8 +1,8 @@
 package gol.gui;
 
+import com.github.tinosteinort.beanrepository.BeanAccessor;
 import gol.Cell;
 import gol.base.FxmlController;
-import gol.base.injection.BeanRepository;
 import gol.board.Board;
 import gol.board.BoardPainter;
 import gol.board.BoardPainterFactory;
@@ -74,11 +74,11 @@ public class GameOfLifeGuiController extends FxmlController {
     private final ResourceLoaderService resourceLoaderService;
     private final DialogSupport dialogSupport;
 
-    public GameOfLifeGuiController(final BeanRepository repository) {
-        this.conversionService = repository.get(ConversionService.class);
-        this.persistenceService = repository.get(PersistenceService.class);
-        this.resourceLoaderService = repository.get(ResourceLoaderService.class);
-        this.dialogSupport = repository.get(DialogSupport.class);
+    public GameOfLifeGuiController(final BeanAccessor accessor) {
+        this.conversionService = accessor.getBean(ConversionService.class);
+        this.persistenceService = accessor.getBean(PersistenceService.class);
+        this.resourceLoaderService = accessor.getBean(ResourceLoaderService.class);
+        this.dialogSupport = accessor.getBean(DialogSupport.class);
     }
 
     @Override protected String getFxml() {

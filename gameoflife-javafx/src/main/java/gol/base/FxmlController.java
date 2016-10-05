@@ -1,7 +1,7 @@
 package gol.base;
 
-import gol.base.injection.BeanRepository;
-import gol.base.injection.PostConstructible;
+import com.github.tinosteinort.beanrepository.BeanRepository;
+import com.github.tinosteinort.beanrepository.PostConstructible;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 

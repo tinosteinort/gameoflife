@@ -22,6 +22,10 @@
             <groupId>javax.jnlp</groupId>
             <artifactId>jnlp-api</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.github.tinosteinort</groupId>
+            <artifactId>beanrepository</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
