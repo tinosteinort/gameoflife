@@ -9,12 +9,18 @@ import gol.persistence.PersistenceService;
 import gol.persistence.ResourceLoaderService;
 import javafx.stage.Stage;
 
+import javax.jnlp.BasicService;
+
 /**
  * Created by Tino on 14.05.2016.
  */
 public class BeanBootstrap {
 
     public BeanRepository bootstrap(final Stage stage) {
+
+        final BeanRepository jnlpBeans = new BeanRepository.BeanRepositoryBuilder("JnlpBeans")
+                .singletonFactory(BasicService.class, () -> new JnlpServiceFactory<>("javax.jnlp.BasicService"))
+                .build();
 
         final BeanRepository repository = new BeanRepository.BeanRepositoryBuilder()
                 .singleton(GameOfLifeGuiController.class, GameOfLifeGuiController::new)
@@ -24,8 +30,9 @@ public class BeanBootstrap {
                 .singleton(PersistenceService.class, PersistenceService::new)
                 .singleton(ResourceLoaderService.class, ResourceLoaderService::new)
                 .instance(stage)
-                .build();
+                .build(jnlpBeans);
 
         return repository;
     }
 }
+

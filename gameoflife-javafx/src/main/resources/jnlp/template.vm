@@ -1,18 +1,12 @@
 <?xml version="1.0" encoding="$encoding"?>
 <jnlp
     spec="$jnlpspec"
-##    codebase="$jnlpCodebase"
+      codebase="http://localhost:8123/files"
     href="$outputFile">
   <information>
-#if($project.Name)
-    <title>$project.Name</title>
-#end
-#if($project.Organization.Name)
-    <vendor>$project.Organization.Name</vendor>
-#end
-#if($project.Url)
-    <homepage href="$project.Url"/>
-#end
+    <title>Game of Life</title>
+    <vendor>Tino Steinort</vendor>
+    <homepage href="https://github.com/tinosteinort/gameoflife"/>
 #if($project.Description)
     <description>$project.Description</description>
 #end
