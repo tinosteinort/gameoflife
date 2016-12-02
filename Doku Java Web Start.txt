@@ -58,7 +58,9 @@ Zertifikat exportieren, damit es im Java Control Panel angegeben werden kann:
 > keytool.exe -export -file export_pub.cert -keystore devstore.jks -storepass changeit -alias <alias>
 
 
-Lösung um Anwendungen zu programmieren die nicht signiert sind und in einer Sandbox laufen
+Lösung um Anwendungen zu programmieren die in einer Sandbox laufen
+    * die Anwendung muss signiert sein
+    * das Zertifikat muss im Java Control Panel als 'trusted' eingetragen werden
     * Die generierte Anwendung unter 'gameoflife-javafx\target\jnlp' wird durch einen Webserver (Spark)
         angeboten
     * Das ClientSystem muss eine JNLP als soche erkennen, deswegen wird der korrekte ContentType benötigt
