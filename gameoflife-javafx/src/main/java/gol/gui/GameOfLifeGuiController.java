@@ -30,7 +30,6 @@ import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
-import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
 
@@ -301,17 +300,8 @@ public class GameOfLifeGuiController extends FxmlController {
     }
 
     @FXML private void doSave() {
-        final Optional<Path> fileOption = dialogSupport.selectPathForSave();
-        if (!fileOption.isPresent()) {
-            return;
-        }
-
-        saveGameState(fileOption.get());
-    }
-
-    private void saveGameState(final Path file) {
         final XmlGameOfLifeState gameState = conversionService.convert(board);
-        persistenceService.save(file, gameState);
+        persistenceService.save(gameState);
     }
 
     @FXML private void doOpen() {
@@ -319,22 +309,11 @@ public class GameOfLifeGuiController extends FxmlController {
             return;
         }
 
-        final Optional<Path> fileOption = dialogSupport.selectPathForOpen();
-        if (!fileOption.isPresent()) {
-            return;
+        final XmlGameOfLifeState gameState = persistenceService.load();
+        if (gameState != null) {
+            board = conversionService.convert(gameState);
+            initBoard(board);
         }
-
-        loadGameState(fileOption.get());
-    }
-
-    private void loadGameState(final Path file) {
-        if (board != null) {
-            board.clear();
-        }
-
-        final XmlGameOfLifeState gameState = persistenceService.load(file);
-        board = conversionService.convert(gameState);
-        initBoard(board);
     }
 
     @FXML private void doNextStep() {

@@ -20,9 +20,11 @@ public class BeanBootstrap {
 
         final BeanRepository jnlpBeans = new BeanRepository.BeanRepositoryBuilder("JnlpBeans")
                 .singletonFactory(BasicService.class, () -> new JnlpServiceFactory<>("javax.jnlp.BasicService"))
+                .singletonFactory(javax.jnlp.FileSaveService.class, () -> new JnlpServiceFactory<>("javax.jnlp.FileSaveService"))
+                .singletonFactory(javax.jnlp.FileOpenService.class, () -> new JnlpServiceFactory<>("javax.jnlp.FileOpenService"))
                 .build();
 
-        final BeanRepository repository = new BeanRepository.BeanRepositoryBuilder()
+        final BeanRepository repository = new BeanRepository.BeanRepositoryBuilder(jnlpBeans)
                 .singleton(GameOfLifeGuiController.class, GameOfLifeGuiController::new)
                 .singleton(DirectionDialogGuiController.class, DirectionDialogGuiController::new)
                 .prototype(DialogSupport.class, DialogSupport::new)
@@ -30,7 +32,7 @@ public class BeanBootstrap {
                 .singleton(PersistenceService.class, PersistenceService::new)
                 .singleton(ResourceLoaderService.class, ResourceLoaderService::new)
                 .instance(stage)
-                .build(jnlpBeans);
+                .build();
 
         return repository;
     }

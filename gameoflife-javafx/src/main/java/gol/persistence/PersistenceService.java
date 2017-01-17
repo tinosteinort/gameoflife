@@ -1,61 +1,79 @@
 package gol.persistence;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
+import com.github.tinosteinort.beanrepository.BeanAccessor;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+
+import javax.jnlp.FileContents;
+import javax.jnlp.FileOpenService;
+import javax.jnlp.FileSaveService;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.io.InputStreamReader;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Created by Tino on 18.02.2016.
  */
 public class PersistenceService {
 
-//    private final Marshaller marshaller;
-//    private final Unmarshaller unmarshaller;
+    private final FileOpenService fileOpenService;
+    private final javax.jnlp.FileSaveService fileSaveService;
 
-    public PersistenceService() {
-//        try {
-//            final JAXBContext context = JAXBContext.newInstance(XmlGameOfLifeState.class);
-//            this.marshaller = context.createMarshaller();
-//            this.marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-//            this.unmarshaller = context.createUnmarshaller();
-//        }
-//        catch (JAXBException ex) {
-//            throw new RuntimeException("Could not create PersistenceService", ex);
-//        }
+    public PersistenceService(final BeanAccessor beans) {
+        this.fileOpenService = beans.getBean(FileOpenService.class);
+        this.fileSaveService = beans.getBean(FileSaveService.class);
     }
 
-    public void save(final Path file, final XmlGameOfLifeState gameState) {
+    public void save(final XmlGameOfLifeState gameState) {
 
-//        try (OutputStream os = Files.newOutputStream(file)) {
-//
-//            marshaller.marshal(gameState, os);
-//        }
-//        catch (JAXBException ex) {
-//            throw new RuntimeException("Error while writing File", ex);
-//        }
-//        catch (IOException ex) {
-//            throw new RuntimeException("Error while writing File", ex);
-//        }
+        try {
+            final String content = String.format("%s, %d x %d", gameState.getBoardType(), gameState.getBoardWidth(), gameState.getBoardHeight());
+            final byte[] data = content.getBytes();
+            final ByteArrayInputStream bis = new ByteArrayInputStream(data);
+
+            final FileContents contents = fileSaveService.saveFileDialog(null, null, bis, null);
+            if (contents == null) {
+                // file can not be saved
+            }
+        }
+        catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
     }
 
-    public XmlGameOfLifeState load(final Path file) {
+    public XmlGameOfLifeState load() {
 
-//        try (InputStream is = Files.newInputStream(file)) {
-//
-//            return (XmlGameOfLifeState) unmarshaller.unmarshal(is);
-//        }
-//        catch (IOException ex) {
-//            throw new RuntimeException("Error while reading File", ex);
-//        }
-//        catch (JAXBException ex) {
-//            throw new RuntimeException("Error while reading File", ex);
-//        }
+        try {
+            final FileContents contents = fileOpenService.openFileDialog(null, null);
+            if (contents == null) {
+                return null;
+            }
+
+            final String content = read(contents.getInputStream());
+            System.out.println(content);
+
+            final Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
+                    "File Viewer",
+                    ButtonType.YES, ButtonType.NO);
+            alert.setTitle("Game of Life");
+            alert.setHeaderText("Inhalt der geladenen Datei:");
+            alert.setContentText(content);
+
+            final Optional<ButtonType> result = alert.showAndWait();
+        }
+        catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
         return null;
+    }
+
+    public static String read(final InputStream input) throws IOException {
+        try (BufferedReader buffer = new BufferedReader(new InputStreamReader(input))) {
+            return buffer.lines().collect(Collectors.joining("\n"));
+        }
     }
 }
