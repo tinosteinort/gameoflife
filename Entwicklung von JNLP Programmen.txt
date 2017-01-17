@@ -1,0 +1,46 @@
+Was will ich machen?
+    * Anbieten einer Anwendung über JNLP
+    * Nutzen der JNLP API
+    * Warum? Um zu wissen wie eine JNLP App entwickelt werden muss
+    * Welche Vorteile hat die Entwicklung von Programmen die JNLP nutzen
+        * Updatemechanismus durch JNLP
+        * Startbar aus dem Browser heraus
+        * Kann in Sandbox laufen
+        * ursprüngliche Hoffnung war, das eine Anwendung nicht signiert
+          sein muss, wenn sie in der Sandbox läuft. Diese Hoffnung wurde
+          durch ein Sicherheitsupdate zunichte gemacht :-)
+
+Was muss ich dafür machen?
+    * Anwendung signieren
+        * nicht signierte Anwendungen werden von JNLP Client aus
+          Sicherheitsgründen nicht mehr ausgeführt
+    * JNLP Datei erstellen
+    * JNLP Datei und Anwendung über Webserver bereitstellen
+
+Welche Probleme hatte ich?
+    * Blockieren nicht signerter Anwendungen
+    * Starten der Anwendung ohne Webserver
+    * Caching vom JNLP Client -> Cache leeren über Java Console
+    * Reflection ist in Sandbox nicht erlaubt
+    * Debugging von JNLP Programmen
+
+
+Was habe ich herausgefunden?
+    * Selbst signierte Zertifikate müssen manuell importiert werden
+    * Codebase der JNLP Datei muss mit dem Pfad übereinstimmen, über den
+      die Anwendung erreichbar ist
+    * Die Angabe des Security Levels müssen in der JNLP und in der
+      Manifest.mf übereinstimmen
+    * In der JNLP müssen alle benötigten JARS aufgelistet werden
+    * JNLP kann generiert werden
+        * durch Servlet (liegt als Code in den Beispielen bereit)
+        * durch "org.codehaus.mojo:webstart-maven-plugin" mit Hilfe eines
+          Velocity Templates
+    * Da JARs zum Starten der Anwendung benötigt werden, muss man zum
+      Starten immer ein Maven Build ausführen
+      der die Artefakte generiert
+    * Am einfachsten ist es einen lokalen Server zu haben der die Anwendung
+      aus der IDE bereitstellt
+    * Der Server muss die JNLP Datei mit dem richtigen Content-Type
+      "application/x-java-jnlp-file" ausliefern, wenn man die Anwendung aus
+      dem Browser heraus mit einem Klick starten möchte
