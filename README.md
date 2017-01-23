@@ -26,7 +26,7 @@ Zusammenfassung meiner gewonnenen Ideen beim Coderetreat (Game of Life) des
     - CSS Styling (Toolbarbuttons)
     - Zeichnen auf Canvas
 - Jaxb zum Speichern und Laden des Spielstands
-- Spring
+- [BeanRepository](https://github.com/tinosteinort/beanrepository)
     - für Dependency Injection
     - in Kombination mit JavaFX
 

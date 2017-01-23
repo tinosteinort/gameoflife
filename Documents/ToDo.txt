@@ -2,8 +2,6 @@
     -> mit maven-versions-plugin ersetzt
 [X] Use Spring for DI
     -> own DI without Reflection
-[ ] Use AMapper
-[ ] Board Painter als eigene Componente
 [ ] JNLP
 
 * use long instead of int for x/y of Cell
