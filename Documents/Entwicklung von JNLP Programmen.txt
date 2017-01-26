@@ -39,6 +39,8 @@ Was habe ich herausgefunden?
     * Da JARs zum Starten der Anwendung benötigt werden, muss man zum
       Starten immer ein Maven Build ausführen
       der die Artefakte generiert
+    * Um Probleme mit dem Caching zu verhindern: im Java Control Panel
+      unter "General -> Settings" das Caching ausschalten
     * Am einfachsten ist es einen lokalen Server zu haben der die Anwendung
       aus der IDE bereitstellt
     * Der Server muss die JNLP Datei mit dem richtigen Content-Type
