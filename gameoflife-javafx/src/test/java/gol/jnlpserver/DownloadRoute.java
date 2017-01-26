@@ -1,4 +1,4 @@
-package gol;
+package gol.jnlpserver;
 
 import spark.Request;
 import spark.Response;

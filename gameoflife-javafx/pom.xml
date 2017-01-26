@@ -15,6 +15,10 @@
 
     <dependencies>
         <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+        <dependency>
             <groupId>tse.gameoflife</groupId>
             <artifactId>gameoflife-core</artifactId>
         </dependency>

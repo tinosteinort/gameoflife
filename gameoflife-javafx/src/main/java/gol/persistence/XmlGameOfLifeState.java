@@ -62,4 +62,26 @@ public class XmlGameOfLifeState {
     public void setCells(List<XmlCell> cells) {
         this.cells = cells;
     }
+
+    @Override public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        XmlGameOfLifeState that = (XmlGameOfLifeState) o;
+
+        if (boardWidth != that.boardWidth) return false;
+        if (boardHeight != that.boardHeight) return false;
+        if (generation != that.generation) return false;
+        if (boardType != that.boardType) return false;
+        return cells != null ? cells.equals(that.cells) : that.cells == null;
+    }
+
+    @Override public int hashCode() {
+        int result = boardType != null ? boardType.hashCode() : 0;
+        result = 31 * result + boardWidth;
+        result = 31 * result + boardHeight;
+        result = 31 * result + (int) (generation ^ (generation >>> 32));
+        result = 31 * result + (cells != null ? cells.hashCode() : 0);
+        return result;
+    }
 }

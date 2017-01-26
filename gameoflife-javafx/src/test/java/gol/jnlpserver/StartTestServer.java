@@ -1,4 +1,4 @@
-package gol;
+package gol.jnlpserver;
 
 import com.github.tinosteinort.beanrepository.BeanRepository;
 import spark.Spark;
