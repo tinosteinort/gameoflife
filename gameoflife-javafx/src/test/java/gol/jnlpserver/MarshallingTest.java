@@ -6,7 +6,6 @@ import gol.persistence.XmlBoardType;
 import gol.persistence.XmlCell;
 import gol.persistence.XmlGameOfLifeState;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -26,6 +25,7 @@ public class MarshallingTest {
         gameState.setBoardType(XmlBoardType.TORUS);
         gameState.setBoardWidth(50);
         gameState.setBoardHeight(30);
+        gameState.setGeneration(1234);
         final XmlCell cell = new XmlCell();
         cell.setX(1);
         cell.setY(2);
@@ -43,6 +43,7 @@ public class MarshallingTest {
         gameState.setBoardType(XmlBoardType.FIXED);
         gameState.setBoardWidth(40);
         gameState.setBoardHeight(20);
+        gameState.setGeneration(4321);
         final XmlCell cell1 = new XmlCell();
         cell1.setX(10);
         cell1.setY(10);
