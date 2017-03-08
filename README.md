@@ -18,6 +18,8 @@ Zusammenfassung meiner gewonnenen Ideen beim Coderetreat (Game of Life) des
 	* Unendlich großes Brett
 - einige vordefinierte Populationen
 - einfügen von im "Life 1.06" Format vordefinierter Figuren per Rechtsklick
+- Ausführung in der Java Sandbox mit beschränkten Rechten
+    * Rechte werden vom Benutzer angefordert, wenn sie benötigt werden
 
 # Frameworks #
 - JUnit
@@ -25,10 +27,10 @@ Zusammenfassung meiner gewonnenen Ideen beim Coderetreat (Game of Life) des
     - GUI Erstellung mit JavaFX Scene Builder
     - CSS Styling (Toolbarbuttons)
     - Zeichnen auf Canvas
-- Jaxb zum Speichern und Laden des Spielstands
 - [BeanRepository](https://github.com/tinosteinort/beanrepository)
     - für Dependency Injection
     - in Kombination mit JavaFX
+- JNLP
 
 # Links #
 Life 1.06 File Format: [ConwayLife](http://www.conwaylife.com/wiki/Life_1.06)
