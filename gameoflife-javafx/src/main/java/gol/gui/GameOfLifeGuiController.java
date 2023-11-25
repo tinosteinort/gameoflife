@@ -146,7 +146,7 @@ public class GameOfLifeGuiController extends FxmlController {
         });
 
         canvas.setOnScroll((ScrollEvent event) -> {
-            if (!painterIsAvailable()) {
+            if (!painterIsAvailable() || event.getDeltaY() == 0.0) {
                 return;
             }
 
