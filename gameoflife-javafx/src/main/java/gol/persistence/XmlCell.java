@@ -1,6 +1,6 @@
 package gol.persistence;
 
-import javax.xml.bind.annotation.*;
+import jakarta.xml.bind.annotation.*;
 
 /**
  * Created by Tino on 18.02.2016.

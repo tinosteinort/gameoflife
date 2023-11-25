@@ -25,10 +25,10 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<version.junit>4.12</version.junit>
+		<version.junit>4.13.2</version.junit>
 		<version.maven-compiler-plugin>3.5.1</version.maven-compiler-plugin>
 		<version.versions-maven-plugin>2.2</version.versions-maven-plugin>
-        <version.spring-context>4.2.6.RELEASE</version.spring-context>
+        <version.spring-context>6.1.1</version.spring-context>
 	</properties>
 
     <dependencyManagement>
@@ -72,8 +72,8 @@
 					<artifactId>maven-compiler-plugin</artifactId>
 					<version>${version.maven-compiler-plugin}</version>
 					<configuration>
-						<source>1.8</source>
-						<target>1.8</target>
+						<source>17</source>
+						<target>17</target>
 					</configuration>
 				</plugin>
 				<plugin>
@@ -84,5 +84,5 @@
 			</plugins>
 		</pluginManagement>
 	</build>
-	
+
 </project>

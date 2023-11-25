@@ -38,3 +38,10 @@ Einige Icons von [famfamfam](http://www.famfamfam.com/lab/icons/silk/).
 Einige Icons von [Yusuke Kamiyamane](http://p.yusukekamiyamane.com/).
 
 ![GameOfLife](GameOfLife.png)
+
+# Build And Run JAR #
+
+´´´
+mvn compile package
+java -jar gameoflife-javafx/shade/gameoflife-javafx.jar
+´´´
