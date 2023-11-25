@@ -24,6 +24,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Slider;
+import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
@@ -124,18 +125,24 @@ public class GameOfLifeGuiController extends FxmlController {
             contextMenu.hide();
             cellForContextMenu = Optional.empty();
 
-            final Optional<Cell> clickedCell = getCellOnBoard(event);
+            final Optional<Cell> clickedCell = getCellOnBoard(event.getX(), event.getY());
+            if (!clickedCell.isPresent()) {
+                return;
+            }
+            handleUserEditCell(clickedCell.get());
+        });
+
+        canvas.setOnContextMenuRequested((ContextMenuEvent event) -> {
+            contextMenu.hide();
+            cellForContextMenu = Optional.empty();
+
+            final Optional<Cell> clickedCell = getCellOnBoard(event.getX(), event.getY());
             if (!clickedCell.isPresent()) {
                 return;
             }
 
-            if (event.isPopupTrigger()) {
-                cellForContextMenu = clickedCell;
-                contextMenu.show(canvas, event.getScreenX(), event.getScreenY());
-            }
-            else {
-                handleUserEditCell(clickedCell.get());
-            }
+            cellForContextMenu = clickedCell;
+            contextMenu.show(canvas, event.getScreenX(), event.getScreenY());
         });
 
         canvas.setOnScroll((ScrollEvent event) -> {
@@ -174,11 +181,11 @@ public class GameOfLifeGuiController extends FxmlController {
         paint();
     }
 
-    private Optional<Cell> getCellOnBoard(final MouseEvent event) {
+    private Optional<Cell> getCellOnBoard(final double x, final double y) {
         if (!painterIsAvailable()) {
             return Optional.empty();
         }
-        final Point2D boardPos = boardPainter.getPosOnBoard(event.getX(), event.getY());
+        final Point2D boardPos = boardPainter.getPosOnBoard(x, y);
         return  boardPainter.getCellAt(boardPos);
     }
 
