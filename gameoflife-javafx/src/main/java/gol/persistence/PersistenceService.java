@@ -39,10 +39,7 @@ public class PersistenceService {
 
             marshaller.marshal(gameState, os);
         }
-        catch (JAXBException ex) {
-            throw new RuntimeException("Error while writing File", ex);
-        }
-        catch (IOException ex) {
+        catch (JAXBException | IOException ex) {
             throw new RuntimeException("Error while writing File", ex);
         }
     }
@@ -53,10 +50,7 @@ public class PersistenceService {
 
             return (XmlGameOfLifeState) unmarshaller.unmarshal(is);
         }
-        catch (IOException ex) {
-            throw new RuntimeException("Error while reading File", ex);
-        }
-        catch (JAXBException ex) {
+        catch (IOException | JAXBException ex) {
             throw new RuntimeException("Error while reading File", ex);
         }
     }

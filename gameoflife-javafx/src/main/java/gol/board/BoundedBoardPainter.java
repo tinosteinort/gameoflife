@@ -18,10 +18,10 @@ public class BoundedBoardPainter implements BoardPainter {
 
     private final BoundedBoard board;
 
-    private Color backgroundColor = Color.GRAY;
-    private Color boardBackgroundColor = Color.WHITE;
-    private Color gridLineColor = Color.LIGHTGRAY;
-    private Color cellColor = Color.BLACK;
+    private final Color backgroundColor = Color.GRAY;
+    private final Color boardBackgroundColor = Color.WHITE;
+    private final Color gridLineColor = Color.LIGHTGRAY;
+    private final Color cellColor = Color.BLACK;
 
     private final ViewPort viewPort;
 

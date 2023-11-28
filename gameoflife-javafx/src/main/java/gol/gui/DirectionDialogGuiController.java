@@ -137,8 +137,8 @@ public class DirectionDialogGuiController extends FxmlController {
         int minX = findMinX(figure.getCells());
         int minY = findMinY(figure.getCells());
 
-        minX = (minX > 0 ? 0 : minX);
-        minY = (minY > 0 ? 0 : minY);
+        minX = Math.min(minX, 0);
+        minY = Math.min(minY, 0);
 
         final List<Cell> normalisedCells = new ArrayList<>(cells.size());
         for (Cell cell : figure.getCells()) {

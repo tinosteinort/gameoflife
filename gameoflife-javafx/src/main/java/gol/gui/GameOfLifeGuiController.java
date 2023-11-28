@@ -126,7 +126,7 @@ public class GameOfLifeGuiController extends FxmlController {
             cellForContextMenu = Optional.empty();
 
             final Optional<Cell> clickedCell = getCellOnBoard(event.getX(), event.getY());
-            if (!clickedCell.isPresent()) {
+            if (clickedCell.isEmpty()) {
                 return;
             }
             handleUserEditCell(clickedCell.get());
@@ -137,7 +137,7 @@ public class GameOfLifeGuiController extends FxmlController {
             cellForContextMenu = Optional.empty();
 
             final Optional<Cell> clickedCell = getCellOnBoard(event.getX(), event.getY());
-            if (!clickedCell.isPresent()) {
+            if (clickedCell.isEmpty()) {
                 return;
             }
 
@@ -166,7 +166,7 @@ public class GameOfLifeGuiController extends FxmlController {
     }
 
     private void addResourceFigureToBoard(final ResourceFigure figure) {
-        if (!cellForContextMenu.isPresent()) {
+        if (cellForContextMenu.isEmpty()) {
             return;
         }
 
@@ -238,10 +238,7 @@ public class GameOfLifeGuiController extends FxmlController {
             return false;
         }
         final boolean discardBoard = dialogSupport.askUserForDiscardBoard();
-        if (discardBoard) {
-            return false;
-        }
-        return true;
+        return !discardBoard;
     }
 
     private void clearBoard() {
@@ -265,7 +262,7 @@ public class GameOfLifeGuiController extends FxmlController {
         }
 
         final Optional<BoardBounds> bounds = dialogSupport.getBoundsFromUser();
-        if (!bounds.isPresent()) {
+        if (bounds.isEmpty()) {
             return;
         }
 
@@ -281,7 +278,7 @@ public class GameOfLifeGuiController extends FxmlController {
         }
 
         final Optional<BoardBounds> bounds = dialogSupport.getBoundsFromUser();
-        if (!bounds.isPresent()) {
+        if (bounds.isEmpty()) {
             return;
         }
 
@@ -304,7 +301,7 @@ public class GameOfLifeGuiController extends FxmlController {
 
     @FXML private void doSave() {
         final Optional<Path> fileOption = dialogSupport.selectPathForSave();
-        if (!fileOption.isPresent()) {
+        if (fileOption.isEmpty()) {
             return;
         }
 
@@ -322,7 +319,7 @@ public class GameOfLifeGuiController extends FxmlController {
         }
 
         final Optional<Path> fileOption = dialogSupport.selectPathForOpen();
-        if (!fileOption.isPresent()) {
+        if (fileOption.isEmpty()) {
             return;
         }
 

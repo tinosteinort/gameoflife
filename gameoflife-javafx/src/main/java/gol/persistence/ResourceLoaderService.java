@@ -63,8 +63,8 @@ public class ResourceLoaderService {
 
     private Cell asCell(final String line) {
         final String[] coordinates = line.split("\\s");
-        final int x = Integer.valueOf(coordinates[0]);
-        final int y = Integer.valueOf(coordinates[1]);
+        final int x = Integer.parseInt(coordinates[0]);
+        final int y = Integer.parseInt(coordinates[1]);
         return new Cell(x, y);
     }
 }

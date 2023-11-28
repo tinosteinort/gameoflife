@@ -18,9 +18,9 @@ public class EndlessBoardPainter implements BoardPainter {
 
     private final EndlessBoard board;
 
-    private Color boardBackgroundColor = Color.WHITE;
-    private Color gridLineColor = Color.LIGHTGRAY;
-    private Color cellColor = Color.BLACK;
+    private final Color boardBackgroundColor = Color.WHITE;
+    private final Color gridLineColor = Color.LIGHTGRAY;
+    private final Color cellColor = Color.BLACK;
 
     private final ViewPort viewPort;
 

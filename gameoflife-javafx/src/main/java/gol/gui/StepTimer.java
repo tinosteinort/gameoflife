@@ -4,7 +4,6 @@ import javafx.animation.AnimationTimer;
 import javafx.beans.property.LongProperty;
 import javafx.beans.property.SimpleLongProperty;
 
-import java.util.concurrent.RunnableFuture;
 import java.util.concurrent.TimeUnit;
 
 /**

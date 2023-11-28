@@ -17,7 +17,7 @@ public class GameOfLifeApplication extends Application {
     }
 
     @Override
-    public void start(final Stage primaryStage) throws Exception {
+    public void start(final Stage primaryStage) {
 
         final AnnotationConfigApplicationContext context = new SpringBootstrap().bootstrap(primaryStage);
 

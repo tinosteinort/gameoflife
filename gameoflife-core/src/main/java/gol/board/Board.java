@@ -22,7 +22,7 @@ public abstract class Board {
     private long currentGeneration;
 
     public Board(final long initialGeneration) {
-        this.currentGeneration = (initialGeneration < START_GENERATION ? START_GENERATION : initialGeneration);
+        this.currentGeneration = Math.max(initialGeneration, START_GENERATION);
     }
 
     public Board() {
@@ -45,10 +45,8 @@ public abstract class Board {
             final List<Cell> neighbours = determineLivingNeighbourCells(cell);
             final Status newStatus = calculator.calculateStatus(currentStatus, neighbours.size());
 
-            switch (newStatus) {
-                case ALIVE:
-                    newLivingCells.add(cell);
-                    break;
+            if (newStatus == Status.ALIVE) {
+                newLivingCells.add(cell);
             }
         }
     }
