@@ -23,7 +23,8 @@ public class ResourceLoaderService {
             "Lightweight Spaceship.lif",
             "Middleweight Spaceship.lif",
             "Heavyweight Spaceship.lif",
-            "f-Pentomino.lif"
+            "f-Pentomino.lif",
+            "GliderGun.lif"
             );
 
     public List<ResourceFigure> loadBuildInFigures() {
