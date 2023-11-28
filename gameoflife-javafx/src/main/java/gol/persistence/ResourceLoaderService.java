@@ -25,7 +25,7 @@ public class ResourceLoaderService {
             "Heavyweight Spaceship.lif",
             "f-Pentomino.lif",
             "GliderGun.lif"
-            );
+    );
 
     public List<ResourceFigure> loadBuildInFigures() {
         final List<ResourceFigure> figures = new ArrayList<>(resources.size());
@@ -33,8 +33,7 @@ public class ResourceLoaderService {
             for (String resource : resources) {
                 figures.add(loadResourceFigure(resource));
             }
-        }
-        catch (IOException ex) {
+        } catch (IOException ex) {
             throw new RuntimeException("Error while loading Resource", ex);
         }
         return figures;
