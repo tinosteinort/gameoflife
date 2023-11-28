@@ -22,7 +22,9 @@ public class ResourceLoaderService {
             "Glider.lif",
             "Lightweight Spaceship.lif",
             "Middleweight Spaceship.lif",
-            "Heavyweight Spaceship.lif");
+            "Heavyweight Spaceship.lif",
+            "f-Pentomino.lif"
+            );
 
     public List<ResourceFigure> loadBuildInFigures() {
         final List<ResourceFigure> figures = new ArrayList<>(resources.size());
