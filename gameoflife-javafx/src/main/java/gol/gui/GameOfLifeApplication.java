@@ -24,7 +24,7 @@ public class GameOfLifeApplication extends Application {
         final GameOfLifeGuiController controller = context.getBean(GameOfLifeGuiController.class);
 
         final Parent root = (Parent) controller.getView();
-        final Scene scene = new Scene(root, 700, 500);
+        final Scene scene = new Scene(root, 1000, 700);
 
         controller.paint();
 

@@ -81,12 +81,12 @@ public class DialogSupport {
             final Label wLabel = new Label("Width:");
             final Spinner<Integer> wSpinner = new Spinner<>();
             wSpinner.setEditable(true);
-            wSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(3, 1000, 100));
+            wSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(3, 1000, 45));
 
             final Label hLabel = new Label("Height:");
             final Spinner<Integer> hSpinner = new Spinner<>();
             hSpinner.setEditable(true);
-            hSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(3, 1000, 50));
+            hSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(3, 1000, 25));
 
             final GridPane grid = new GridPane();
             grid.add(wLabel, 0, 0);

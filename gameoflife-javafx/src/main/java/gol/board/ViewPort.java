@@ -11,7 +11,7 @@ import javafx.beans.property.SimpleIntegerProperty;
  */
 public class ViewPort {
 
-    public static final int DEFAULT_CELL_WIDTH = 10;
+    public static final int DEFAULT_CELL_WIDTH = 20;
     private int viewPortX;
     private int viewPortY;
 
